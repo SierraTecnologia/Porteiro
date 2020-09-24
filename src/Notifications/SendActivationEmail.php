@@ -1,6 +1,6 @@
 <?php
 
-namespace Facilitador\Notifications;
+namespace Porteiro\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Facilitador\Activation;
+namespace Porteiro\Activation;
 
 use App\Models\Activation;
 use App\Models\User;

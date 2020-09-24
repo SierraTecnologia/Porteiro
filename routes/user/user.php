@@ -5,10 +5,10 @@ use Support\Events\Routing;
 use Support\Events\RoutingAdmin;
 use Support\Events\RoutingAdminAfter;
 use Support\Events\RoutingAfter;
-use Facilitador\Facades\Facilitador;
+use Porteiro\Facades\Porteiro;
 
 // Route::group(['prefix' => 'facilitador'], function () {
-//     Facilitador::routes();
+//     Porteiro::routes();
 // });
 
 
@@ -17,11 +17,11 @@ Route::post('pusher/auth', function() {
   });
 /*
 |--------------------------------------------------------------------------
-| Facilitador Routes
+| Porteiro Routes
 |--------------------------------------------------------------------------
 |
 | This file is where you may override any of the routes that are included
-| with Facilitador.
+| with Porteiro.
 |
 */
             
@@ -36,11 +36,11 @@ Route::post('pusher/auth', function() {
                         event(new RoutingAdmin());
 
                         // Main Admin and Logout Route
-                        Route::get('/', ['uses' => 'FacilitadorController@index',   'as' => 'dashboard']);
-                        Route::post('logout', ['uses' => 'FacilitadorController@logout',  'as' => 'logout']);
-                        Route::post('upload', ['uses' => 'FacilitadorController@upload',  'as' => 'upload']);
+                        Route::get('/', ['uses' => 'PorteiroController@index',   'as' => 'dashboard']);
+                        Route::post('logout', ['uses' => 'PorteiroController@logout',  'as' => 'logout']);
+                        Route::post('upload', ['uses' => 'PorteiroController@upload',  'as' => 'upload']);
 
-                        Route::get('profile', ['uses' => 'FacilitadorUserController@profile', 'as' => 'profile']);
+                        Route::get('profile', ['uses' => 'PorteiroUserController@profile', 'as' => 'profile']);
 
                         Route::get('/', 'ProfileController@index')->name('home');
                         Route::get('/show', 'ProfileController@show')->name('profile.show');

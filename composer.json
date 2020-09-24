@@ -3,11 +3,7 @@
     "description": "porteiro",
     "type": "library",
     "keywords": [
-        "jira",
-        "confluence",
-        "rest",
-        "jira-php",
-        "jira-rest"
+        "porteiro"
     ],
     "homepage": "https://github.com/sierratecnologia/porteiro",
     "license": "MIT",

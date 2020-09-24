@@ -1,6 +1,6 @@
 <?php
 
-namespace Facilitador\Notifications\Organizer;
+namespace Porteiro\Notifications\Organizer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
