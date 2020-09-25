@@ -48,7 +48,7 @@ class SubscriptionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         if (!$userMeta = $user->userMeta()->first()) {

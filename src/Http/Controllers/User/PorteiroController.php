@@ -15,7 +15,7 @@ use Porteiro\Http\Controllers\User\Controller;
 
 class PorteiroController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return Porteiro::view('facilitador::index');
     }

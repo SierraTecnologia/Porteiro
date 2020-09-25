@@ -17,7 +17,7 @@ class PorteiroAuthController extends Controller
             return redirect()->route('rica.dashboard');
         }
 
-        return Porteiro::view('support::layouts.voyager.login');
+        return Porteiro::view('pedreiro::layouts.voyager.login');
     }
 
     public function postLogin(Request $request)
