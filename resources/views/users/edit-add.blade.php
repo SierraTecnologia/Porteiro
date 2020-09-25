@@ -69,7 +69,7 @@
                                         $row     = $dataTypeRows->where('field', 'user_belongsto_role_relationship')->first();
                                         $options = $row->details;
                                     @endphp
-                                    @include('support::shared.forms.fields.relationship')
+                                    @include('pedreiro::shared.forms.fields.relationship')
                                 </div>
                                 <div class="form-group">
                                     <label for="additional_roles">{{ __('facilitador::profile.roles_additional') }}</label>
@@ -77,7 +77,7 @@
                                         $row     = $dataTypeRows->where('field', 'user_belongstomany_role_relationship')->first();
                                         $options = $row->details;
                                     @endphp
-                                    @include('support::shared.forms.fields.relationship')
+                                    @include('pedreiro::shared.forms.fields.relationship')
                                 </div>
                             @endcan
                             @php
