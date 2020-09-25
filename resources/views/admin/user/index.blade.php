@@ -9,8 +9,8 @@
     <div class="page-header">
         <h3>
             {!! trans("admin/users.users") !!}
-            <div class="pull-right">
-                <div class="pull-right">
+            <div class="float-right">
+                <div class="float-right">
                     <a href="{!! url('admin/user/create') !!}"
                        class="btn btn-sm  btn-primary iframe"><span
                                 class="glyphicon glyphicon-plus-sign"></span> {{

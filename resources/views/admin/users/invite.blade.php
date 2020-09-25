@@ -1,4 +1,4 @@
-@include('partials.errors')
+@include('pedreiro::partials.errors')
 
 @if (session('message'))
     <div class="">

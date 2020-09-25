@@ -68,7 +68,7 @@
                 <span class="glyphicon glyphicon-ban-circle"></span> {{
 				trans("admin/modal.cancel") }}
             </button>
-            <button type="reset" class="btn btn-sm btn-default">
+            <button type="reset" class="btn btn-sm btn-secondary">
                 <span class="glyphicon glyphicon-remove-circle"></span> {{
 				trans("admin/modal.reset") }}
             </button>

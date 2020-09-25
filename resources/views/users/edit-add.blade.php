@@ -115,13 +115,13 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary pull-right save">
+            <button type="submit" class="btn btn-primary float-right save">
                 {{ __('facilitador::generic.save') }}
             </button>
         </form>
 
         <iframe id="form_target" name="form_target" style="display:none"></iframe>
-        <form id="my_form" action="{{ route('profile.upload') }}" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+        <form id="my_form" action="{{ route('profile.porteiro.upload') }}" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
             {{ csrf_field() }}
             <input name="image" id="upload_file" type="file" onchange="$('#my_form').submit();this.value='';">
             <input type="hidden" name="type_slug" id="type_slug" value="{{ $dataType->slug }}">

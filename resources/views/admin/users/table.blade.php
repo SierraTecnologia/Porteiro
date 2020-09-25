@@ -15,8 +15,8 @@
                     <td>
                         {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
-                            <a href="{!! route('admin.users.show', [$user->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                            <a href="{!! route('admin.users.edit', [$user->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit"></i> Edit</a>
+                            <a href="{!! route('admin.users.show', [$user->id]) !!}" class='btn btn-secondary btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                            <a href="{!! route('admin.users.edit', [$user->id]) !!}" class='btn btn-secondary btn-xs'><i class="fa fa-edit"></i> Edit</a>
                             {!! Form::button('<i class="fa fa-trash"></i> Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('".trans('phrases.areYouSure')."')"]) !!}
                         </div>
                         {!! Form::close() !!}

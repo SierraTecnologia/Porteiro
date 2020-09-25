@@ -80,7 +80,6 @@ class PorteiroProvider extends ServiceProvider
         // View::share('key', 'value');
         // Validator::extend('porteiro', function ($attribute, $value, $parameters, $validator) {
         // });
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations/');
         $this->publishes(
@@ -121,6 +120,12 @@ class PorteiroProvider extends ServiceProvider
             ],
             'public'
         );
+
+
+        // COloquei no register pq nao tava reconhecendo as rotas para o adminlte
+        $this->app->booted(function () {
+            $this->routes();
+        });
     }
 
     /**
