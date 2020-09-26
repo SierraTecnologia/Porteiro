@@ -16,18 +16,19 @@ class Policy
      * Check an Admin model against an action performed on a controller against
      * permissions from the config.
      *
-     * @param  User   $admin
-     * @param  string $action     The verb we're checking.  Examples:
+     * @param User   $admin
+     * @param string $action     The verb we're checking.  Examples:
      *                            - create - read - update - destroy
      *                            - manage - publish
-     * @param  string $controller
+     * @param string $controller
      *                             - controller instance
      *                             - controller name (Admin\ArticlesController)
      *                             - URL (/admin/articles)
      *                             - slug (articles)
-     * @return boolean
+     *
+     * @return true
      */
-    public function check(User $admin, $action, $controller)
+    public function check(User $admin, $action, $controller): bool
     {
         return true; //@todo
         // dd($admin, 'aqui');

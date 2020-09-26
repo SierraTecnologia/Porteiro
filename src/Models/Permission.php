@@ -7,18 +7,26 @@ use Porteiro;
 
 class Permission extends Model
 {
-    protected $guarded = [];
+    /**
+     * @var array
+     */
+    protected array $guarded = [];
 
-    protected $fillable = [
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: string}
+     */
+    protected array $fillable = [
         'name'
     ];
 
-    public function roles()
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Porteiro::modelClass('Role'));
     }
 
-    public static function generateFor($table_name)
+    public static function generateFor($table_name): void
     {
         self::firstOrCreate(['key' => 'browse_'.$table_name, 'table_name' => $table_name]);
         self::firstOrCreate(['key' => 'read_'.$table_name, 'table_name' => $table_name]);
@@ -27,7 +35,7 @@ class Permission extends Model
         self::firstOrCreate(['key' => 'delete_'.$table_name, 'table_name' => $table_name]);
     }
 
-    public static function removeFrom($table_name)
+    public static function removeFrom($table_name): void
     {
         self::where(['table_name' => $table_name])->delete();
     }

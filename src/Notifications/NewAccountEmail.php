@@ -28,10 +28,13 @@ class NewAccountEmail extends Notification
     /**
      * Get the notification's channels.
      *
-     * @param  mixed $notifiable
-     * @return array|string
+     * @param mixed $notifiable
+     *
+     * @return string[]
+     *
+     * @psalm-return array{0: string}
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return [
             'mail'
@@ -41,10 +44,11 @@ class NewAccountEmail extends Notification
     /**
      * Build the mail representation of the notification.
      *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param mixed $notifiable
+     *
+     * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
             ->greeting('Hey '.$notifiable->name)
