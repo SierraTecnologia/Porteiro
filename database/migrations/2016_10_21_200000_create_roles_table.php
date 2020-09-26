@@ -16,13 +16,15 @@ class CreateRolesTable extends Migration
         DB::beginTransaction();
         if (!Schema::hasTable('roles')) {
             // Create table for storing roles
-            Schema::create('roles', function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('name')->unique();
-                $table->string('display_name')->nullable();
-                $table->string('description')->nullable();
-                $table->timestamps();
-            });
+            Schema::create(
+                'roles', function (Blueprint $table) {
+                    $table->increments('id');
+                    $table->string('name')->unique();
+                    $table->string('display_name')->nullable();
+                    $table->string('description')->nullable();
+                    $table->timestamps();
+                }
+            );
         }
 
 
