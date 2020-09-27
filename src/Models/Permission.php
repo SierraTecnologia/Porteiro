@@ -10,14 +10,14 @@ class Permission extends Model
     /**
      * @var array
      */
-    protected array $guarded = [];
+    protected $guarded = [];
 
     /**
      * @var string[]
      *
      * @psalm-var array{0: string}
      */
-    protected array $fillable = [
+    protected $fillable = [
         'name'
     ];
 
