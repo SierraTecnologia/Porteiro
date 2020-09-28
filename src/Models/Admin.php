@@ -5,9 +5,6 @@ namespace Porteiro\Models;
 // Deps
 use Bkwld\Library\Utils\Text;
 use Config;
-use Porteiro;
-use Porteiro\Auth\AuthInterface;
-use Porteiro\Notifications\ResetPassword;
 use HTML;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -19,6 +16,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Mail;
 use Muleta\Traits\Models\HasImages;
+use Pedreiro;
+use Porteiro;
+use Porteiro\Auth\AuthInterface;
+use Porteiro\Notifications\ResetPassword;
 use Request;
 use SupportURL;
 use URL;
@@ -126,7 +127,7 @@ class Admin extends Base implements
         ) {
             $this->role = $admin->role;
 
-            // Otherwise, give the admin a default role if none was defined
+        // Otherwise, give the admin a default role if none was defined
         } elseif (empty($this->role)) {
             $this->role = 'admin';
         }
@@ -184,9 +185,11 @@ class Admin extends Base implements
 
         // Send the email
         Mail::send(
-            'decoy::emails.create', $email, function ($m) use ($email) {
+            'decoy::emails.create',
+            $email,
+            function ($m) use ($email) {
                 $m->to($email['email'], $email['first_name'].' '.$email['last_name']);
-                $m->subject('Welcome to the '.Decoy::site().' admin site');
+                $m->subject('Welcome to the '.Pedreiro::site().' admin site');
             }
         );
     }
@@ -213,9 +216,11 @@ class Admin extends Base implements
 
         // Send the email
         Mail::send(
-            'decoy::emails.update', $email, function ($m) use ($email) {
+            'decoy::emails.update',
+            $email,
+            function ($m) use ($email) {
                 $m->to($email['email'], $email['first_name'].' '.$email['last_name']);
-                $m->subject('Your '.Decoy::site().' admin account info has been updated');
+                $m->subject('Your '.Pedreiro::site().' admin account info has been updated');
             }
         );
     }
@@ -341,7 +346,7 @@ class Admin extends Base implements
 
         // If row is disabled
         if ($this->disabled()) {
-            $html .= '<a href="' . URL::to(DecoyURL::relative('enable', $this->id)) . '" class="label label-warning
+            $html .= '<a href="' . URL::to(SupportURL::relative('enable', $this->id)) . '" class="label label-warning
                 js-tooltip" title="' . __('decoy::admins.standard_list.click') . '">' .
                 __('decoy::admins.standard_list.disabled') . '</a>';
         }
@@ -357,7 +362,7 @@ class Admin extends Base implements
      */
     public function getAdminEditAttribute()
     {
-        return DecoyURL::action('Bkwld\Decoy\Controllers\Admins@edit', $this->id);
+        return SupportURL::action('Bkwld\Decoy\Controllers\Admins@edit', $this->id);
     }
 
     /**
@@ -389,7 +394,8 @@ class Admin extends Base implements
                 }
 
                 return $title;
-            }, config('decoy.site.roles')
+            },
+            config('decoy.site.roles')
         );
     }
 
@@ -405,18 +411,20 @@ class Admin extends Base implements
         $controllers = array_map(
             function ($path) {
                 return 'App\Http\Controllers\Admin\\'.basename($path, '.php');
-            }, glob(app_path('/Http/Controllers/Admin/*.php'))
+            },
+            glob(app_path('/Http/Controllers/Admin/*.php'))
         );
 
         // Add some Decoy controllers
-        $controllers[] = 'Bkwld\Decoy\Controllers\Admins';
-        $controllers[] = 'Bkwld\Decoy\Controllers\Changes';
-        $controllers[] = 'Bkwld\Decoy\Controllers\Elements';
-        $controllers[] = 'Bkwld\Decoy\Controllers\RedirectRules';
+        $controllers[] = 'Audit\Controllers\Admin\Admins';
+        $controllers[] = 'Facilitadorsy\Controllers\Changes';
+        $controllers[] = 'Facilitadorsy\Controllers\Admin\Elements';
+        $controllers[] = 'Facilitadorsy\Controllers\Admin\RedirectRules';
 
         // Alphabetize the controller classes
         usort(
-            $controllers, function ($a, $b) {
+            $controllers,
+            function ($a, $b) {
                 return substr($a, strrpos($a, '\\') + 1) > substr($b, strrpos($b, '\\') + 1);
             }
         );
@@ -458,16 +466,20 @@ class Admin extends Base implements
                         // Filter the list of roles to just the roles that allow the
                         // permission currently being iterated through
                         'roles' => array_filter(
-                            $roles, function ($role) use ($action, $class) {
+                            $roles,
+                            function ($role) use ($action, $class) {
                                 return with(new Admin(['role' => $role]))->can($action, $class);
                             }
                         ),
 
                         ];
-                    }, $permissions, array_keys($permissions)
+                    },
+                    $permissions,
+                    array_keys($permissions)
                 ),
                 ];
-            }, $controllers
+            },
+            $controllers
         );
     }
 

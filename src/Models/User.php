@@ -6,11 +6,6 @@ namespace Porteiro\Models;
 use Bkwld\Library\Utils\Text;
 use Carbon\Carbon;
 use Config;
-use Porteiro;
-use Porteiro\Auth\AuthInterface;
-use Porteiro\Contracts\User as UserContract;
-use Porteiro\Notifications\ResetPassword;
-use Porteiro\Traits\PorteiroUser;
 use HTML;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -20,10 +15,16 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as UserAuthenticatable;
 use Illuminate\Notifications\Notifiable;
-
 use Laravel\Passport\HasApiTokens;
 use Mail;
+use Pedreiro;
 use Population\Manipule\Builders\UserBuilder;
+use Porteiro;
+use Porteiro\Auth\AuthInterface;
+
+use Porteiro\Contracts\User as UserContract;
+use Porteiro\Notifications\ResetPassword;
+use Porteiro\Traits\PorteiroUser;
 
 use Request;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -423,7 +424,7 @@ class User extends Base implements
             $email,
             function ($m) use ($email) {
                 $m->to($email['email'], $email['first_name'].' '.$email['last_name']);
-                $m->subject('Welcome to the '.Porteiro::site().' admin site');
+                $m->subject('Welcome to the '.Pedreiro::site().' admin site');
             }
         );
     }
@@ -454,7 +455,7 @@ class User extends Base implements
             $email,
             function ($m) use ($email) {
                 $m->to($email['email'], $email['first_name'].' '.$email['last_name']);
-                $m->subject('Your '.Porteiro::site().' admin account info has been updated');
+                $m->subject('Your '.Pedreiro::site().' admin account info has been updated');
             }
         );
     }

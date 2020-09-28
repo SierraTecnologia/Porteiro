@@ -4,6 +4,7 @@ namespace Porteiro\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Porteiro;
+use Porteiro\Models\Role;
 
 class Permission extends Model
 {
@@ -23,7 +24,7 @@ class Permission extends Model
 
     public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Porteiro::modelClass('Role'));
+        return $this->belongsToMany(Role::class);
     }
 
     public static function generateFor($table_name): void
