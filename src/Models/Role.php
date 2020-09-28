@@ -99,7 +99,7 @@ class Role extends Model
 
     /**
      * Add a permission to this role.
-     * @param \Population\Models\Components\Book\Permissions\RolePermission $permission
+     * @param \Porteiro\Models\Permissions\RolePermission $permission
      */
     public function attachPermission(Permissions\RolePermission $permission)
     {
@@ -108,7 +108,7 @@ class Role extends Model
 
     /**
      * Detach a single permission from this role.
-     * @param \Population\Models\Components\Book\Permissions\RolePermission $permission
+     * @param \Porteiro\Models\Permissions\RolePermission $permission
      */
     public function detachPermission(Permissions\RolePermission $permission)
     {

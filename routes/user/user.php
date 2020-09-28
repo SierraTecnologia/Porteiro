@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Str;
-use Support\Events\Routing;
-use Support\Events\RoutingAdmin;
-use Support\Events\RoutingAdminAfter;
-use Support\Events\RoutingAfter;
+use Pedreiro\Events\Routing;
+use Pedreiro\Events\RoutingAdmin;
+use Pedreiro\Events\RoutingAdminAfter;
+use Pedreiro\Events\RoutingAfter;
 use Porteiro\Facades\Porteiro;
 
 // Route::group(['prefix' => 'facilitador'], function () {
