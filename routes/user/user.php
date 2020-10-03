@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Str;
-use Support\Events\Routing;
-use Support\Events\RoutingAdmin;
-use Support\Events\RoutingAdminAfter;
-use Support\Events\RoutingAfter;
 use Porteiro\Facades\Porteiro;
 
 // Route::group(['prefix' => 'facilitador'], function () {
@@ -12,9 +8,9 @@ use Porteiro\Facades\Porteiro;
 // });
 
 
-Route::post('pusher/auth', function() {
+Route::post('pusher/auth', function () {
     return auth()->user();
-  });
+});
 /*
 |--------------------------------------------------------------------------
 | Porteiro Routes
@@ -33,7 +29,6 @@ Route::post('pusher/auth', function() {
         //     function () {
                 // Route::group(
                 //     ['middleware' => 'admin.user'], function () {
-                        event(new RoutingAdmin());
 
                         // Main Admin and Logout Route
                         Route::get('/', ['uses' => 'PorteiroController@index',   'as' => 'dashboard']);
@@ -50,7 +45,6 @@ Route::post('pusher/auth', function() {
                         Route::get('password', 'PasswordController@password');
                         Route::post('password', 'PasswordController@update');
 
-                        event(new RoutingAdminAfter());
                     // }
                 // );
             // }
@@ -95,4 +89,3 @@ Route::post('pusher/auth', function() {
 //     Route::get('password', 'PasswordController@password');
 //     Route::post('password', 'PasswordController@update');
 // });
-

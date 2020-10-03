@@ -2,9 +2,14 @@
 
 namespace Porteiro;
 
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
+use Porteiro\Http\Middleware\Admin as AdminMiddleware;
+use Porteiro\Http\Middleware\User as UserMiddleware;
 
 class PorteiroProvider extends ServiceProvider
 {
@@ -65,7 +70,7 @@ class PorteiroProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      */
-    public function boot()
+    public function boot(Router $router, Dispatcher $events)
     {
         $this->publishes(
             [
@@ -73,6 +78,9 @@ class PorteiroProvider extends ServiceProvider
             ],
             'config'
         );
+
+        $this->app['router']->aliasMiddleware('user', UserMiddleware::class);
+        $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
 
         // View::composer(
         //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
@@ -126,6 +134,14 @@ class PorteiroProvider extends ServiceProvider
         $this->app->booted(function () {
             $this->routes();
         });
+
+
+        $events->listen(
+            BuildingMenu::class,
+            function (BuildingMenu $event) {
+                (new \Pedreiro\Template\Mounters\SystemMount())->loadMenuForAdminlte($event);
+            }
+        );
     }
 
     /**
