@@ -6,11 +6,6 @@ namespace Porteiro\Models;
 use Bkwld\Library\Utils\Text;
 use Carbon\Carbon;
 use Config;
-use Porteiro;
-use Porteiro\Auth\AuthInterface;
-use Porteiro\Contracts\User as UserContract;
-use Porteiro\Notifications\ResetPassword;
-use Porteiro\Traits\PorteiroUser;
 use HTML;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -20,10 +15,15 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as UserAuthenticatable;
 use Illuminate\Notifications\Notifiable;
-
 use Laravel\Passport\HasApiTokens;
 use Mail;
 use Population\Manipule\Builders\UserBuilder;
+use Porteiro;
+use Porteiro\Auth\AuthInterface;
+
+use Porteiro\Contracts\User as UserContract;
+use Porteiro\Notifications\ResetPassword;
+use Porteiro\Traits\PorteiroUser;
 
 use Request;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -55,10 +55,10 @@ class User extends Base implements
     // use CanResetPassword;
 
 
-    // use \Transmissor\Traits\UserRememberTokenHelper;
-    use \Transmissor\Traits\UserSocialiteHelper;
-    use \Transmissor\Traits\UserAvatarHelper;
-    use \Transmissor\Traits\UserActivityHelper;
+    // use \Porteiro\Traits\UserRememberTokenHelper;
+    use \Porteiro\Traits\UserSocialiteHelper;
+    use \Porteiro\Traits\UserAvatarHelper;
+    use \Porteiro\Traits\UserActivityHelper;
 
 
     /**

@@ -81,8 +81,25 @@ class PorteiroProvider extends ServiceProvider
             'config'
         );
 
-        $this->app['router']->aliasMiddleware('user', UserMiddleware::class);
-        $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
+        // $this->app['router']->aliasMiddleware('user', UserMiddleware::class);
+        // $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
+        // $this->app['router']->pushMiddlewareToGroup('web', 'user');
+        // $this->app['router']->pushMiddlewareToGroup('web', 'admin');
+
+        $this->app['router']->middlewareGroup(
+            'user',
+            [
+                'web',
+                UserMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'admin',
+            [
+                'web',
+                AdminMiddleware::class
+            ]
+        );
 
         // View::composer(
         //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
