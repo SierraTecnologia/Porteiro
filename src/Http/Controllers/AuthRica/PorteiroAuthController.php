@@ -1,6 +1,6 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Auth;
+namespace Porteiro\Http\Controllers\AuthRica;
 
 use Porteiro\Facades\Porteiro;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;

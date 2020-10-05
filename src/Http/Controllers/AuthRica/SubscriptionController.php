@@ -1,6 +1,6 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Auth;
+namespace Porteiro\Http\Controllers\AuthRica;
 
 use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Traits\CaptchaTrait;
-use App\Services\Traits\ActivationTrait;
+use Porteiro\Traits\ActivationTrait;
 
 use App\Http\Requests\SubscriptionRequest;
 
-use App\Models\Commerce\Plan;
+use Siravel\Models\Commerce\Plan;
 use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
@@ -48,15 +48,15 @@ class SubscriptionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         if (!$userMeta = $user->userMeta()->first()) {
             $plans = Plan::all();
-            return \Templeiro::view('user.subscription-register', compact('plans'));
+            return view('user.subscription-register', compact('plans'));
         }
 
-        return \Templeiro::view('user.subscription', compact('userMeta'));
+        return view('user.subscription', compact('userMeta'));
     }
 
     /**

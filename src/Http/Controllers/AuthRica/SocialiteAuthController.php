@@ -3,14 +3,14 @@
  * Meio duplicado em relacao a essa
  */
 
-namespace Porteiro\Http\Controllers\Auth;
+namespace Porteiro\Http\Controllers\AuthRica;
 
 use DB;
 use URL;
 use Auth;
 use Config;
 use Socialite;
-use App\Services\UserService;
+use Porteiro\Services\UserService;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 

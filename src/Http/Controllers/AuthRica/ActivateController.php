@@ -1,10 +1,10 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Auth;
+namespace Porteiro\Http\Controllers\AuthRica;
 
+use Porteiro\Services\UserService;
+use Porteiro\Services\ActivateService;
 use App\Http\Controllers\Controller;
-use App\Services\System\ActivateService;
-use App\Services\UserService;
 
 class ActivateController extends Controller
 {
@@ -25,7 +25,7 @@ class ActivateController extends Controller
      */
     public function showActivate()
     {
-        return \Templeiro::view('auth.activate.email');
+        return view('auth.activate.email');
     }
 
     /**
@@ -36,7 +36,7 @@ class ActivateController extends Controller
     public function sendToken()
     {
         $this->service->sendActivationToken();
-        return \Templeiro::view('auth.activate.token');
+        return view('auth.activate.token');
     }
 
     /**
@@ -50,6 +50,6 @@ class ActivateController extends Controller
             return redirect('dashboard')->with('message', 'Your account was activated');
         }
 
-        return \Templeiro::view('auth.activate.email')->withErrors(['Could not validate your token']);
+        return view('auth.activate.email')->withErrors(['Could not validate your token']);
     }
 }

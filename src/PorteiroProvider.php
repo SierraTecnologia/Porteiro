@@ -25,6 +25,8 @@ class PorteiroProvider extends ServiceProvider
     public static $providers = [
 
         \Pedreiro\PedreiroProviderService::class,
+        // HAML
+        \Bkwld\LaravelHaml\ServiceProvider::class,
 
         
     ];

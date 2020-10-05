@@ -3,15 +3,14 @@
 namespace Porteiro\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\PleaseConfirmYourEmail;
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use App\Services\UserService;
+use DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Porteiro\Traits\CaptchaTrait;
-use Porteiro\Traits\ActivationTrait;
 
 class RegisterController extends Controller
 {
@@ -26,23 +25,24 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers, ActivationTrait, CaptchaTrait;
+    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
         $this->middleware('guest');
+        $this->service = $userService;
     }
 
     /**
@@ -53,85 +53,37 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // return Validator::make($data, [
-        //     'name' => 'required|max:255',
-        //     'email' => 'required|email|max:255|unique:users',
-        //     'password' => 'required|min:6|confirmed',
-        // ]);
-
-
-        $data['captcha'] = $this->captchaCheck();
-
-        $validator = Validator::make(
-            $data,
-            [
-                'first_name'            => 'required',
-                'last_name'             => 'required',
-                'email'                 => 'required|unique:users',
-                'password'              => 'required|min:6|max:20',
-                'password_confirmation' => 'required|same:password',
-                'g-recaptcha-response'  => 'required',
-                'captcha'               => 'required|min:1'
-            ],
-            [
-                'first_name.required'   => trans('default.first_name_required'),
-                'last_name.required'    => trans('default.last_name_required'),
-                'email.required'        => trans('default.email_address_required'),
-                'email.email'           => trans('default.email_address_invalid'),
-                'password.required'     => trans('default.password_required'),
-                'password.min'          => trans('default.password_needs'),
-                'password.max'          => trans('default.password_maximum'),
-                'g-recaptcha-response.required' => trans('default.captcha_required'),
-                'captcha.min'           => trans('default.captcha_invalid')
+        return Validator::make(
+            $data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]
         );
-
-        return $validator;
-
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array $data
-     * @return User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        $user =  User::create(
-            [
-            'name' => $data['name'],
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'token' => \Illuminate\Support\Str::random(64),
-            'confirmation_token' => str_limit(md5($data['email'] . \Illuminate\Support\Str::random()), 25, ''),
-            'activated' => !\Illuminate\Support\Facades\Config::get('settings.activation')
-            ]
+        return DB::transaction(
+            function () use ($data) {
+                $user = User::create(
+                    [
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password'])
+                    ]
+                );
+                $role = Role::firstOrNew(['name' => 'user']);
+                $user->assignRole($role);
+
+                return $this->service->create($user, $data['password']);
+            }
         );
-
-        if (isset($data['avatar'])) {
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        }
-
-        $role = Role::whereName('user')->first();
-        $user->assignRole($role);
-
-        $this->initiateEmailActivation($user);
-
-        return $user;
-    }
-
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\User         $user
-     * @return void
-     */
-    protected function registered(Request $request, $user)
-    {
-        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
     }
 }
