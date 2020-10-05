@@ -24,12 +24,12 @@
 
 		!= Former::text('email')->addGroupClass('form-inline')
 		!= Former::password('password')->addGroupClass('form-inline')
-		!= Former::checkbox('remember', ' ')->text(__('facilitador::login.form.remember'))->check()->addGroupClass('form-inline fake-label')
+		!= Former::checkbox('remember', ' ')->text(__('pedreiro::login.form.remember'))->check()->addGroupClass('form-inline fake-label')
 
 		.form-group.form-inline.fake-label
 			.buttons
-				%button.btn.btn-primary(type="submit") != __('facilitador::login.form.login')
-				%a.btn.btn-default(href=route('facilitador.account@forgot')) != __('facilitador::login.form.forgot')
+				%button.btn.btn-primary(type="submit") != __('pedreiro::login.form.login')
+				%a.btn.btn-default(href=route('facilitador.account@forgot')) != __('pedreiro::login.form.forgot')
 
 		!=Former::close()
 

@@ -1,43 +1,43 @@
 != View::make('support::shared.form._header', $__data)->render()
 
 %fieldset
-	.legend= empty($item) ? __('facilitador::admins.legend.new') : __('facilitador::admins.legend.edit')
+	.legend= empty($item) ? __('pedreiro::admins.legend.new') : __('pedreiro::admins.legend.edit')
 
 	-# There is so much logic here, breaking out to php for more line breaking
 	:php
 
 		// Name
-		echo Former::text('first_name')->label(__('facilitador::admins.form.first_name'));
-		echo Former::text('last_name')->label(__('facilitador::admins.form.last_name'));
+		echo Former::text('first_name')->label(__('pedreiro::admins.form.first_name'));
+		echo Former::text('last_name')->label(__('pedreiro::admins.form.last_name'));
 
 		// Email and password
-		echo Former::text('email')->label(__('facilitador::admins.form.email'));
+		echo Former::text('email')->label(__('pedreiro::admins.form.email'));
 		if (Config::get('application.auth.obscure_admin_password')) {
-			echo Former::password('password')->label(__('facilitador::admins.form.password'));
-			echo Former::password('confirm_password')->label(__('facilitador::admins.form.confirm_password'));
+			echo Former::password('password')->label(__('pedreiro::admins.form.password'));
+			echo Former::password('confirm_password')->label(__('pedreiro::admins.form.confirm_password'));
 		} else {
-			echo Former::text('password')->label(__('facilitador::admins.form.password'))
+			echo Former::text('password')->label(__('pedreiro::admins.form.password'))
 				->forceValue(empty($item) ? \Illuminate\Support\Str::random(16) : null)
-				->placeholder(empty($item) ? null : __('facilitador::admins.form.password_placeholder'));
+				->placeholder(empty($item) ? null : __('pedreiro::admins.form.password_placeholder'));
 		}
 
 		// Image
-		echo Former::image('image')->label(__('facilitador::admins.form.image'));
+		echo Former::image('image')->label(__('pedreiro::admins.form.image'));
 
 		// Roles and permissions
 		if (app('facilitador.user')->can('grant', $controller)
 			&& ($roles = Config::get('sitec.site.roles'))
 			&& !empty($roles)) {
-			echo Former::radiolist('role')->label(__('facilitador::admins.form.role'))->from($roles);
+			echo Former::radiolist('role')->label(__('pedreiro::admins.form.role'))->from($roles);
 			echo View::make('facilitador::admins._permissions', $__data)->render();
 		}
 
 		// Send email
-		echo Former::checkbox('_send_email', 'Notify')->label(__('facilitador::admins.form.notify'))
+		echo Former::checkbox('_send_email', 'Notify')->label(__('pedreiro::admins.form.notify'))
 			->value(1)
 			->text(empty($item) ?
-				__('facilitador::admins.form.notify_welcome') :
-				__('facilitador::admins.form.notify_changes', ['name' => $item->first_name]));
+				__('pedreiro::admins.form.notify_welcome') :
+				__('pedreiro::admins.form.notify_changes', ['name' => $item->first_name]));
 
 	-# Create moderation actions
 	-ob_start()
@@ -45,13 +45,13 @@
 
 		-# Disable admin
 		-if (!$item->disabled())
-			%a.btn.btn-warning.js-tooltip(title=__('facilitador::admins.form.disable_tooltip') href=URL::to(SupportURL::relative('disable', $item->id)))
+			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.disable_tooltip') href=URL::to(SupportURL::relative('disable', $item->id)))
 				%span.glyphicon.glyphicon-ban-circle
-				!= __('facilitador::admins.form.disable')
+				!= __('pedreiro::admins.form.disable')
 		-else
-			%a.btn.btn-warning.js-tooltip(title=__('facilitador::admins.form.enable_tooltip') href=URL::to(SupportURL::relative('enable', $item->id)))
+			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.enable_tooltip') href=URL::to(SupportURL::relative('enable', $item->id)))
 				%span.glyphicon.glyphicon-ban-circle
-				!= __('facilitador::admins.form.enable')
+				!= __('pedreiro::admins.form.enable')
 	-$actions = ob_get_clean();
 
 != View::make('support::shared.form._footer', array_merge($__data, ['actions' => $actions]))->render()

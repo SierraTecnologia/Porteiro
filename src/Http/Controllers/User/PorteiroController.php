@@ -64,13 +64,13 @@ class PorteiroController extends Controller
 
             // move uploaded file from temp to uploads directory
             if (Storage::disk(\Illuminate\Support\Facades\Config::get('sitec.facilitador.storage.disk'))->put($fullPath, (string) $image, 'public')) {
-                $status = __('facilitador::media.success_uploading');
+                $status = __('pedreiro::media.success_uploading');
                 $fullFilename = $fullPath;
             } else {
-                $status = __('facilitador::media.error_uploading');
+                $status = __('pedreiro::media.error_uploading');
             }
         } else {
-            $status = __('facilitador::media.uploading_wrong_type');
+            $status = __('pedreiro::media.uploading_wrong_type');
         }
 
         // echo out script that TinyMCE can handle and update the image in the editor

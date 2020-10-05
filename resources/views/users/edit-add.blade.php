@@ -1,6 +1,6 @@
 @extends('pedreiro::layouts.voyager.master')
 
-@section('page_title', __('facilitador::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
+@section('page_title', __('pedreiro::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -9,7 +9,7 @@
 @section('page_header')
     <h1 class="page-title">
         <i class="{{ $dataType->icon }}"></i>
-        {{ __('facilitador::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
+        {{ __('pedreiro::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
     </h1>
 @stop
 
@@ -40,29 +40,29 @@
 
                         <div class="panel-body">
                             <div class="form-group">
-                                <label for="name">{{ __('facilitador::generic.name') }}</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('facilitador::generic.name') }}"
+                                <label for="name">{{ __('pedreiro::generic.name') }}</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('pedreiro::generic.name') }}"
                                        value="{{ old('name', $dataTypeContent->name ?? '') }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="email">{{ __('facilitador::generic.email') }}</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('facilitador::generic.email') }}"
+                                <label for="email">{{ __('pedreiro::generic.email') }}</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('pedreiro::generic.email') }}"
                                        value="{{ old('email', $dataTypeContent->email ?? '') }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="password">{{ __('facilitador::generic.password') }}</label>
+                                <label for="password">{{ __('pedreiro::generic.password') }}</label>
                                 @if(isset($dataTypeContent->password))
                                     <br>
-                                    <small>{{ __('facilitador::profile.password_hint') }}</small>
+                                    <small>{{ __('pedreiro::profile.password_hint') }}</small>
                                 @endif
                                 <input type="password" class="form-control" id="password" name="password" value="" autocomplete="new-password">
                             </div>
 
                             @can('editRoles', $dataTypeContent)
                                 <div class="form-group">
-                                    <label for="default_role">{{ __('facilitador::profile.role_default') }}</label>
+                                    <label for="default_role">{{ __('pedreiro::profile.role_default') }}</label>
                                     @php
                                         $dataTypeRows = $dataType->{(isset($dataTypeContent->id) ? 'editRows' : 'addRows' )};
 
@@ -72,7 +72,7 @@
                                     @include('pedreiro::shared.forms.fields.relationship')
                                 </div>
                                 <div class="form-group">
-                                    <label for="additional_roles">{{ __('facilitador::profile.roles_additional') }}</label>
+                                    <label for="additional_roles">{{ __('pedreiro::profile.roles_additional') }}</label>
                                     @php
                                         $row     = $dataTypeRows->where('field', 'user_belongstomany_role_relationship')->first();
                                         $options = $row->details;
@@ -89,7 +89,7 @@
 
                             @endphp
                             <div class="form-group">
-                                <label for="locale">{{ __('facilitador::generic.locale') }}</label>
+                                <label for="locale">{{ __('pedreiro::generic.locale') }}</label>
                                 <select class="form-control select2" id="locale" name="locale">
                                     @foreach (Porteiro::getLocales() as $locale)
                                     <option value="{{ $locale }}"
@@ -116,7 +116,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary float-right save">
-                {{ __('facilitador::generic.save') }}
+                {{ __('pedreiro::generic.save') }}
             </button>
         </form>
 

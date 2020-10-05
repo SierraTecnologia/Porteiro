@@ -593,14 +593,14 @@ class User extends Base implements
 
         // If row is you
         if ($this->id == app('facilitador.user')->id) {
-            $html .= '<span class="label label-info">' . __('facilitador::admins.standard_list.you') . '</span>';
+            $html .= '<span class="label label-info">' . __('pedreiro::admins.standard_list.you') . '</span>';
         }
 
         // If row is disabled
         if ($this->disabled()) {
             $html .= '<a href="' . URL::to(SupportURL::relative('enable', $this->id)) . '" class="label label-warning
-                js-tooltip" title="' . __('facilitador::admins.standard_list.click') . '">' .
-                __('facilitador::admins.standard_list.disabled') . '</a>';
+                js-tooltip" title="' . __('pedreiro::admins.standard_list.click') . '">' .
+                __('pedreiro::admins.standard_list.disabled') . '</a>';
         }
 
         // Return HTML
