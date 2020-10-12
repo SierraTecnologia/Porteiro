@@ -40,7 +40,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.create');
+        return view('porteiro::admin.roles.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        return view('admin.roles.edit', compact('role'));
+        return view('porteiro::admin.roles.edit', compact('role'));
     }
 
     /**

@@ -18,11 +18,11 @@
         <div class="box panel card box-primary panel-primary card-primary">
             <div class="btn-group">
                 <h1 class="float-right">
-                    <a class="btn btn-primary float-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.users.create') !!}">{!! trans('words.addNew') !!}</a>
+                    <a class="btn btn-primary float-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.porteiro.users.create') !!}">{!! trans('words.addNew') !!}</a>
                 </h1>
             </div>
             <div class="box-body panel-body card-body">
-                    @include('facilitador::admin.users.table')
+                    @include('porteiro::admin.users.table')
             </div>
         </div>
     </div>

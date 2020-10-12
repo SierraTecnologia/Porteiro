@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $users = \App\Models\User::all();
 
-        return view('admin.users.index', compact('users'));
+        return view('porteiro::admin.users.index', compact('users'));
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('porteiro::admin.users.create');
     }
 
     /**

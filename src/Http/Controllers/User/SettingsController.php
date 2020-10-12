@@ -2,12 +2,13 @@
 
 namespace Porteiro\Http\Controllers\User;
 
-use Exception;
 use App\Http\Requests;
-use Illuminate\Http\Request;
-use Porteiro\Services\UserService;
 use App\Http\Requests\UserUpdateRequest;
+use Auth;
+use Exception;
+use Illuminate\Http\Request;
 use Porteiro\Http\Controllers\User\Controller;
+use Porteiro\Services\UserService;
 
 class SettingsController extends Controller
 {
