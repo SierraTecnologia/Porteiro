@@ -121,7 +121,7 @@ class PorteiroProvider extends ServiceProvider
         // Validator::extend('porteiro', function ($attribute, $value, $parameters, $validator) {
         // });
         
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/');
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations/');
         $this->publishes(
             [
             __DIR__.'/../database/migrations/' => database_path('migrations')
