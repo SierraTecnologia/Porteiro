@@ -39,9 +39,9 @@
     </div>
 
     <div>
-        <a href="{{ URL::previous() }}">Cancel</a>
-        <button type="submit">Save</button>
+        <a href="{{ URL::previous() }}">{{ _t('Cancel') }}</a>
+        <button type="submit">{{ _t('Save') }}</button>
     </div>
 </form>
 
-<a href="/root/roles">Role Admin</a>
+<a href="/root/roles">{{ _t('Role Admin') }}</a>

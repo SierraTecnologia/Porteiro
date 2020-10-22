@@ -3,7 +3,7 @@
 <section class="content">
 	<div class="box panel card box-primary panel-primary card-primary">
 		<div class="box-header panel-header card-header">
-			<h3>All Permissions</h3>
+			<h3>{!! _t('All Permissions') !!}</h3>
 		</div>
 		<div class="box-body panel-body card-body">
 			<a href="{{url('admin/permissions/create')}}" class = "btn btn-success"><i class="fa fa-plus fa-md" aria-hidden="true"></i> {!! trans('words.new') !!}</a>

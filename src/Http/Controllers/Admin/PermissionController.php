@@ -17,7 +17,7 @@ class PermissionController extends Controller
     {
         $permissions = Permission::all();
 
-        return view('facilitador::admin.permissions.index', compact('permissions'));
+        return view('porteiro::admin.permissions.index', compact('permissions'));
     }
 
     /**
@@ -27,7 +27,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('facilitador::admin.permissions.create');
+        return view('porteiro::admin.permissions.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($id);
 
-        return view('facilitador::admin.permissions.edit', compact('permission'));
+        return view('porteiro::admin.permissions.edit', compact('permission'));
     }
 
     /**

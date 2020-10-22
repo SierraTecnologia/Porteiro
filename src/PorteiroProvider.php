@@ -3,6 +3,8 @@
 namespace Porteiro;
 
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
@@ -10,6 +12,7 @@ use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
+use Porteiro\Services\PorteiroService;
 
 class PorteiroProvider extends ServiceProvider
 {
@@ -34,16 +37,26 @@ class PorteiroProvider extends ServiceProvider
      * Rotas do Menu
      */
     public static $menuItens = [
-        // [
-        //     'text'        => 'Vendas',
-        //     'url'         => 'admin/commerce-analytics',
-        //     'icon'        => 'laptop',
-        //     'icon_color'  => 'red',
-        //     'label_color' => 'success',
-        //     'section'     => 'painel',
-        //     'level'       => 2,
-        //     'feature' => 'commerce',
-        // ],
+        [
+            'text'        => 'Usuários',
+            'route'       => 'admin.porteiro.users.index',
+            'icon'        => 'laptop',
+            'icon_color'  => 'red',
+            'label_color' => 'success',
+            // 'section'     => 'painel',
+            // 'level'       => 2,
+            // 'feature' => 'commerce',
+        ],
+        [
+            'text'        => 'Permissões',
+            'route'       => 'admin.porteiro.permissions.index',
+            'icon'        => 'laptop',
+            'icon_color'  => 'red',
+            'label_color' => 'success',
+            // 'section'     => 'painel',
+            // 'level'       => 2,
+            // 'feature' => 'commerce',
+        ],
     ];
     // /**
     //  * Indicates if loading of the provider is deferred.
@@ -168,10 +181,21 @@ class PorteiroProvider extends ServiceProvider
      */
     public function register()
     {
+        $loader = AliasLoader::getInstance();
         $this->mergeConfigFrom(
             __DIR__.'/../publishes/config/porteiro.php',
             'porteiro'
         );
+
+
+        $loader->alias('Porteiro', PorteiroFacade::class);
+        $this->app->singleton(
+            'porteiro',
+            function ($app) {
+                return app()->make(PorteiroService::class);
+            }
+        );
+
         $this->app->singleton(
             AdminLte::class,
             function (Container $app) {

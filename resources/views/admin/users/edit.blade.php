@@ -7,7 +7,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> {!! trans('words.home') !!}</a></li>
-            <li><a href="{!! route('admin.users.index') !!}"><i class="fa fa-key"></i> {!! trans('words.users') !!}</a></li>
+            <li><a href="{!! route('admin.porteiro.users.index') !!}"><i class="fa fa-key"></i> {!! trans('words.users') !!}</a></li>
             <li class="active">{!! trans('words.edit') !!}</li>
         </ol>
    </section>
@@ -17,11 +17,11 @@
            <div class="box-body panel-body card-body">
                <div class="row">
 
-                   @include('layouts.partials.message')
+                   @include('pedreiro::partials.message')
 
-                   {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+                   {!! Form::model($user, ['route' => ['admin.porteiro.users.update', $user->id], 'method' => 'patch']) !!}
 
-                        @include('facilitador::admin.users.fields')
+                        @include('porteiro::admin.users.fields')
 
                    {!! Form::close() !!}
                </div>
