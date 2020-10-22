@@ -4,8 +4,8 @@ namespace Porteiro\Http\Controllers\Admin;
 
 use Hash;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -19,6 +19,20 @@ class UserController extends Controller
         $users = \App\Models\User::all();
 
         return view('porteiro::admin.users.index', compact('users'));
+    }
+
+    /**
+     * show
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        $user = \App\Models\User::findOrfail($id);
+
+        return view('porteiro::admin.users.show', compact('user'));
     }
 
     /**
@@ -66,7 +80,7 @@ class UserController extends Controller
         $userRoles = $user->roles;
         $userPermissions = $user->permissions;
 
-        return view('admin.users.edit', compact('user', 'roles', 'permissions', 'userRoles', 'userPermissions'));
+        return view('porteiro::admin.users.edit', compact('user', 'roles', 'permissions', 'userRoles', 'userPermissions'));
     }
 
     /**

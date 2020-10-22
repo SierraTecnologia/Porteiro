@@ -17,9 +17,9 @@
            <div class="box-body panel-body card-body">
                <div class="row">
 
-                   @include('layouts.partials.message')
+                   @include('pedreiro::partials.message')
 
-                   {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+                   {!! Form::model($user, ['route' => ['admin.porteiro.users.update', $user->id], 'method' => 'patch']) !!}
 
                         @include('porteiro::admin.users.fields')
 

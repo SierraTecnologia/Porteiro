@@ -8,7 +8,7 @@
 
 <h1>User: Invite</h1>
 
-<form method="POST" action="/root/users/invite">
+<form method="POST" action="/admin/users/invite">
     {!! csrf_field() !!}
 
     <div class="">

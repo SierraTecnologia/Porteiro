@@ -13,7 +13,7 @@
                     <td>{!! $user->email !!}</td>
                     <td>{!! $user->admin !!}</td>
                     <td>
-                        {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
+                        {!! Form::open(['route' => ['admin.porteiro.users.destroy', $user->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
                             <a href="{!! route('admin.porteiro.users.show', [$user->id]) !!}" class='btn btn-secondary btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
                             <a href="{!! route('admin.porteiro.users.edit', [$user->id]) !!}" class='btn btn-secondary btn-xs'><i class="fa fa-edit"></i> Edit</a>
