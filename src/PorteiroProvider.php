@@ -206,8 +206,37 @@ class PorteiroProvider extends ServiceProvider
                 );
             }
         );
+
+
+
+
+        // Return the active user account
+        $this->app->singleton(
+            'facilitador.user', function ($app) {
+                $guard = \Illuminate\Support\Facades\Config::get('applcation.auth.guard', 'facilitador');
+                // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('applcation.auth.guard', 'facilitador'));
+                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei 
+            }
+        );
+
+        // Return a redirect response with extra stuff
+        $this->app->singleton(
+            'facilitador.acl_fail', function ($app) {
+                return $app['redirect']
+                    ->guest(route('facilitador.account@login'))
+                    ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
+            }
+        );
+
+        // Build the Elements collection
+        $this->app->singleton(
+            'facilitador.elements', function ($app) {
+                return with(new \Pedreiro\Collections\Elements)->setModel(\Support\Models\Element::class);
+            }
+        );
     }
     
+
     /**
      * Get the services provided by the provider.
      *
@@ -215,6 +244,11 @@ class PorteiroProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['porteiro'];
+        return [
+            'porteiro',
+            'facilitador.acl_fail',
+            'facilitador.elements',
+            'facilitador.user',
+        ];
     }
 }
