@@ -13,6 +13,9 @@
                     <td>{!! $user->email !!}</td>
                     <td>{!! $user->admin !!}</td>
                     <td>
+                        <?php
+                        try {
+                            ?>
                         {!! Form::open(['route' => ['admin.porteiro.users.destroy', $user->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
                             <a href="{!! route('admin.porteiro.users.show', [$user->id]) !!}" class='btn btn-secondary btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
@@ -20,6 +23,11 @@
                             {!! Form::button('<i class="fa fa-trash"></i> Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('".trans('phrases.areYouSure')."')"]) !!}
                         </div>
                         {!! Form::close() !!}
+                        <?php
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    } 
+                    ?>
                     </td>
                 </tr>
             @endforeach
