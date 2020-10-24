@@ -223,7 +223,7 @@ class PorteiroProvider extends ServiceProvider
         $this->app->singleton(
             'facilitador.acl_fail', function ($app) {
                 return $app['redirect']
-                    ->guest(route('facilitador.account@login'))
+                    ->guest(route('porteiro.account@login'))
                     ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
             }
         );

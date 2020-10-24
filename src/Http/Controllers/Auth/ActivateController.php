@@ -3,7 +3,7 @@
 namespace Porteiro\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\System\ActivateService;
+use Porteiro\Services\ActivateService;
 use App\Services\UserService;
 
 class ActivateController extends Controller

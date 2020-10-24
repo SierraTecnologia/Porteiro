@@ -10,8 +10,8 @@ use Illuminate\Foundation\Auth\SubscriptsUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use App\Services\Traits\CaptchaTrait;
-use App\Services\Traits\ActivationTrait;
+use Porteiro\Traits\CaptchaTrait;
+use Porteiro\Traits\ActivationTrait;
 
 use App\Http\Requests\SubscriptionRequest;
 
