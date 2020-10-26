@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
+use Porteiro\Http\Middleware\RiCa as RiCaMiddleware;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
 use Porteiro\Services\PorteiroService;
@@ -113,6 +114,13 @@ class PorteiroProvider extends ServiceProvider
                 AdminMiddleware::class
             ]
         );
+        $this->app['router']->middlewareGroup(
+            'rica',
+            [
+                'web',
+                RiCaMiddleware::class
+            ]
+        );
 
         // View::composer(
         //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
@@ -213,8 +221,8 @@ class PorteiroProvider extends ServiceProvider
         // Return the active user account
         $this->app->singleton(
             'facilitador.user', function ($app) {
-                $guard = \Illuminate\Support\Facades\Config::get('applcation.auth.guard', 'facilitador');
-                // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('applcation.auth.guard', 'facilitador'));
+                $guard = \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador');
+                // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador'));
                 return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei 
             }
         );
