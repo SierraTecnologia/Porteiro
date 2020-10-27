@@ -61,8 +61,8 @@ class ResetPasswordController extends Controller
         // Set the breadcrumbs
         app('rica.breadcrumbs')->set(
             [
-            route('facilitador.account@login') => 'Login',
-            route('facilitador.account@forgot') => 'Forgot Password',
+            route('porteiro.account@login') => 'Login',
+            route('porteiro.account@forgot') => 'Forgot Password',
             url()->current() => 'Reset Password',
             ]
         );
@@ -87,7 +87,7 @@ class ResetPasswordController extends Controller
      */
     public function redirectPath()
     {
-        return route('facilitador.account@login');
+        return route('porteiro.account@login');
     }
 
     /**

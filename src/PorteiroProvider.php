@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
+use Porteiro\Http\Middleware\RiCa as RiCaMiddleware;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
 use Porteiro\Services\PorteiroService;
@@ -80,7 +81,7 @@ class PorteiroProvider extends ServiceProvider
         /**
          * Porteiro; Routes
          */
-        $this->loadRoutesForRiCa(__DIR__.'/../routes');
+        $this->loadRoutesForRiCa(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'routes');
     }
     /**
      * Bootstrap the application events.
@@ -113,6 +114,13 @@ class PorteiroProvider extends ServiceProvider
                 AdminMiddleware::class
             ]
         );
+        $this->app['router']->middlewareGroup(
+            'rica',
+            [
+                'web',
+                RiCaMiddleware::class
+            ]
+        );
 
         // View::composer(
         //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
@@ -121,7 +129,7 @@ class PorteiroProvider extends ServiceProvider
         // Validator::extend('porteiro', function ($attribute, $value, $parameters, $validator) {
         // });
         
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/');
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations/');
         $this->publishes(
             [
             __DIR__.'/../database/migrations/' => database_path('migrations')
@@ -132,14 +140,14 @@ class PorteiroProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'porteiro');
         $this->publishes(
             [
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/porteiro'),
+            __DIR__.'/../resources/lang' => resource_path('lang'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro'),
             ]
         );
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'porteiro');
         $this->publishes(
             [
-            __DIR__.'/../resources/views' => resource_path('views/vendor/porteiro'),
+            __DIR__.'/../resources/views' => resource_path('views'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro'),
             ]
         );
 
@@ -206,8 +214,37 @@ class PorteiroProvider extends ServiceProvider
                 );
             }
         );
+
+
+
+
+        // Return the active user account
+        $this->app->singleton(
+            'facilitador.user', function ($app) {
+                $guard = \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador');
+                // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador'));
+                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei 
+            }
+        );
+
+        // Return a redirect response with extra stuff
+        $this->app->singleton(
+            'facilitador.acl_fail', function ($app) {
+                return $app['redirect']
+                    ->guest(route('porteiro.account@login'))
+                    ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
+            }
+        );
+
+        // Build the Elements collection
+        $this->app->singleton(
+            'facilitador.elements', function ($app) {
+                return with(new \Pedreiro\Collections\Elements)->setModel(\Support\Models\Element::class);
+            }
+        );
     }
     
+
     /**
      * Get the services provided by the provider.
      *
@@ -215,6 +252,11 @@ class PorteiroProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['porteiro'];
+        return [
+            'porteiro',
+            'facilitador.acl_fail',
+            'facilitador.elements',
+            'facilitador.user',
+        ];
     }
 }
