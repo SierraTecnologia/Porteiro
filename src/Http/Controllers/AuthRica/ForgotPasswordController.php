@@ -33,7 +33,7 @@ class ForgotPasswordController extends ResetPasswordController
         // Set the breadcrumbs
         app('rica.breadcrumbs')->set(
             [
-            route('porteiro.account@login') => 'Login',
+            route('login') => 'Login',
             url()->current() => 'Forgot Password',
             ]
         );

@@ -121,6 +121,13 @@ class PorteiroProvider extends ServiceProvider
                 RiCaMiddleware::class
             ]
         );
+        $this->app['router']->middlewareGroup(
+            'root',
+            [
+                'web',
+                RiCaMiddleware::class
+            ]
+        );
 
         // View::composer(
         //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
@@ -231,7 +238,7 @@ class PorteiroProvider extends ServiceProvider
         $this->app->singleton(
             'facilitador.acl_fail', function ($app) {
                 return $app['redirect']
-                    ->guest(route('porteiro.account@login'))
+                    ->guest(route('login'))
                     ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
             }
         );

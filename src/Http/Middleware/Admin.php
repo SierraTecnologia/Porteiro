@@ -48,6 +48,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
+        // dd('adminrica', $this->auth);
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 

@@ -52,13 +52,13 @@ class RiCa
             $admin = (int) $this->auth->user()->admin;
 
             if ($admin<1) {
-                Log::info('Usuario sem permissão para admin, redirecionando! ');
+                Log::info('Usuario sem permissão para rica, redirecionando! ');
                 return $this->response->redirectTo('/');
             }
 
             return $next($request);
         }
-        Log::info('Sem permissão para admin, redirecionando! ');
+        Log::info('Sem permissão para rica, redirecionando! ');
         return $this->response->redirectTo('/');
     }
 }
