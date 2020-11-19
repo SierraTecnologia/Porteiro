@@ -2,7 +2,7 @@
 
 namespace Porteiro\Services;
 
-use App\Models\Role;
+use Porteiro\Models\Role;
 use App\Models\User;
 use Auth;
 use DB;

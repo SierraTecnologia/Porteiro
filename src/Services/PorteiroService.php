@@ -5,7 +5,7 @@ namespace Porteiro\Services;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\Permission;
-use App\Models\Role;
+use Porteiro\Models\Role;
 use App\Models\Setting;
 use App\Models\Translation;
 use Illuminate\Support\Str;

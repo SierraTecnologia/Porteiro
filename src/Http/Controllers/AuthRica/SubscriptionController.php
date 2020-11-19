@@ -5,7 +5,7 @@ namespace Porteiro\Http\Controllers\AuthRica;
 use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
 use App\Models\User;
-use App\Models\Role;
+use Porteiro\Models\Role;
 use Illuminate\Foundation\Auth\SubscriptsUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;

@@ -3,7 +3,7 @@
 namespace Porteiro\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use Porteiro\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Services\UserService;
@@ -79,10 +79,16 @@ class RegisterController extends Controller
                     'password' => bcrypt($data['password'])
                     ]
                 );
-                $role = Role::firstOrNew(['name' => 'user']);
-                $user->assignRole($role);
+                try {
+                    // $role = Role::firstOrNew(['name' => 'member']);
+                    $role = Role::firstOrCreate(['name' => 'member']);
+                    // $user->assignRole($role); // @todo Criada no UserServie Create
+                } catch (\Throwable $th) {
+                    \Log::error('Problema ao atribuir usuário');
+                    \Log::error($th->getMessage());
+                }
 
-                return $this->service->create($user, $data['password']);
+                return $this->service->create($user, $data['password'], 'member');
             }
         );
     }

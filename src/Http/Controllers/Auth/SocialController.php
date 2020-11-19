@@ -3,7 +3,7 @@
 namespace Porteiro\Http\Controllers\Auth;
 
 use App\Http\ControllersController;
-use App\Models\Role;
+use Porteiro\Models\Role;
 use App\Models\Social;
 use App\Models\User;
 use Porteiro\Traits\ActivationTrait;
