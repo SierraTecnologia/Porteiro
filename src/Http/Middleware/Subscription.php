@@ -1,14 +1,16 @@
-<?php namespace Porteiro\Http\Middleware;
+<?php 
+
+namespace Porteiro\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Routing\Redirector;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
-use Log;
+use Illuminate\Foundation\Applicaion;
 
-class Admin
+
+class Subscription
 {
 
     /**
@@ -32,8 +34,7 @@ class Admin
      * @param  ResponseFactory $response
      * @return void
      */
-    public function __construct(
-        Guard $auth,
+    public function __construct(Guard $auth,
         ResponseFactory $response
     ) {
         $this->auth = $auth;
@@ -48,18 +49,14 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        // dd('adminrica', $this->auth);
         if ($this->auth->check()) {
-            $admin = (int) $this->auth->user()->admin;
-
-            if ($admin<1) {
-                Log::info('Usuario sem permissão para admin, redirecionando! ');
-                return $this->response->redirectTo('/');
+            if (!$userMeta = $this->auth->user()->userMeta()->first()) {
+                return $this->response->redirectTo('/subscription');
             }
-
+            
             return $next($request);
         }
-        Log::info('Sem permissão para admin, redirecionando! ');
         return $this->response->redirectTo('/');
     }
+
 }

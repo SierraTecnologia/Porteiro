@@ -1,6 +1,6 @@
 <?php
 
-namespace Transmissor\Models;
+namespace Porteiro\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

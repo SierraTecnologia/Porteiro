@@ -62,4 +62,21 @@ class Role extends Model
     {
         return $this->belongsToMany(Porteiro::modelClass('Permission'));
     }
+
+
+    /**
+     * @todo repetida pq da pau findByName
+     */
+
+    /**
+     * Find Role by name
+     *
+     * @param string $name
+     *
+     * @return \Illuminate\Support\Collection|null|static|Role
+     */
+    public function findByName($name)
+    {
+        return $this->where('name', $name)->firstOrFail();
+    }
 }

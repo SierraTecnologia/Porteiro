@@ -3,8 +3,16 @@
 namespace Porteiro\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Auth;
+use Former;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -50,4 +58,39 @@ class LoginController extends Controller
 
         return redirect('dashboard');
     }
+
+    public function login(Request $request)
+    {
+        $email      = $request->get('email');
+        $password   = $request->get('password');
+        $remember   = $request->get('remember');
+// 
+        // dd('oiuiuiui');
+        if (Auth::attempt(
+            [
+            'email'     => $email,
+            'password'  => $password
+            ],
+            $remember == 1 ? true : false
+        )
+        ) {
+            return redirect()->route('admin.home');
+            if (Auth::user()->hasRole('root')) {
+                return redirect()->route('rica.dashboard');
+            }
+
+            if (Auth::user()->hasRole('administrator')) {
+                return redirect()->route('rica.dashboard');
+            }
+
+            return redirect()->route('rica.dashboard');
+        }
+        
+
+        return redirect()->back()
+            ->with('message', trans('default.incorrect_email_or_password'))
+            ->with('status', 'danger')
+            ->withInput();
+    }
+
 }

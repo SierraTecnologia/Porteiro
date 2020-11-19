@@ -5,7 +5,7 @@
 			%h1 = Facilitador::site()
 			%h4 Powered by <a href="http://sierratecnologia.com.br">SiTec</a>
 
-		!=Former::open_vertical(route('porteiro.account@postLogin'))->addClass('form')
+		!=Former::open_vertical(route('postLogin'))->addClass('form')
 
 		-# Erorrs
 		-if($errors->any())
@@ -29,7 +29,7 @@
 		.form-group.form-inline.fake-label
 			.buttons
 				%button.btn.btn-primary(type="submit") != __('pedreiro::login.form.login')
-				%a.btn.btn-default(href=route('porteiro.account@forgot')) != __('pedreiro::login.form.forgot')
+				%a.btn.btn-default(href=route('forgot')) != __('pedreiro::login.form.forgot')
 
 		!=Former::close()
 

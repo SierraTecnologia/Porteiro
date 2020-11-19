@@ -5,7 +5,7 @@ namespace Porteiro\Http\Controllers\Admin;
 use Hash;
 use Illuminate\Http\Request;
 use App\Models\Permission;
-use App\Models\Role;
+use Porteiro\Models\Role;
 
 class UserController extends Controller
 {

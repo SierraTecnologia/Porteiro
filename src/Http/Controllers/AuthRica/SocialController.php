@@ -9,7 +9,7 @@ use App\Http\ControllersController;
 use Porteiro\Traits\ActivationTrait;
 use App\Models\Social;
 use App\Models\User;
-use App\Models\Role;
+use Porteiro\Models\Role;
 
 class SocialController extends Controller
 {

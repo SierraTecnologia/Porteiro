@@ -947,4 +947,28 @@ class User extends Base implements
             $this->load('roles.permissions');
         }
     }
+
+
+
+    /*********************************************************************
+     *                    Exclusivo daqui
+     */
+
+
+    /**
+     * User UserMeta
+     *
+     * @return Relationship
+     */
+    public function meta()
+    {
+        return $this->hasOne(\App\Models\UserMeta::class);
+    }
+    /**
+     * Get all of the userMeta for the business.
+     */
+    public function userMeta()
+    {
+        return $this->hasMany('App\Models\UserMeta');
+    }
 }

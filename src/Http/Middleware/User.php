@@ -14,6 +14,7 @@ class User extends Middleware
      */
     protected function redirectTo($request)
     {
+        dd('middleware user');
         if (! $request->expectsJson()) {
             return route('login');
         }

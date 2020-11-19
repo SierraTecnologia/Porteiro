@@ -14,7 +14,7 @@
         "laravel/passport": "^10.0",
         "laravel/socialite": "^5.0",
         "ricardosierra/laravel-haml": "^2.4",
-        "ricardosierra/validate": "^0.4.0",
+        "ricardosierra/validate": "^0.2.0",
         "sierratecnologia/crypto": "^0.4.0",
         "sierratecnologia/muleta": "^0.4.0",
         "sierratecnologia/pedreiro": "^0.4.0"

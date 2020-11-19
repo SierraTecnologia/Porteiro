@@ -5,7 +5,7 @@ namespace Porteiro\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
 use App\Models\User;
-use App\Models\Role;
+use Porteiro\Models\Role;
 use Illuminate\Foundation\Auth\SubscriptsUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -53,7 +53,7 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         if (!$userMeta = $user->userMeta()->first()) {
             $plans = Plan::all();
-            return \Templeiro::view('user.subscription-register', compact('plans'));
+            // return \Templeiro::view('user.subscription-register', compact('plans'));
         }
 
         return \Templeiro::view('user.subscription', compact('userMeta'));

@@ -158,7 +158,7 @@ class LoginController extends Controller
         // your previous page.
         $previous = url()->previous();
         if ($previous == url('/')) {
-            return redirect(route('porteiro.account@login'));
+            return redirect(route('login'));
         }
 
         return redirect($previous);
@@ -173,6 +173,6 @@ class LoginController extends Controller
      */
     public function redirectPath()
     {
-        return route('porteiro.account@login');
+        return route('login');
     }
 }
