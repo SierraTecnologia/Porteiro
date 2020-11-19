@@ -53,7 +53,7 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         if (!$userMeta = $user->userMeta()->first()) {
             $plans = Plan::all();
-            return \Templeiro::view('user.subscription-register', compact('plans'));
+            // return \Templeiro::view('user.subscription-register', compact('plans'));
         }
 
         return \Templeiro::view('user.subscription', compact('userMeta'));

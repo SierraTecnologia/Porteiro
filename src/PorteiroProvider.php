@@ -13,6 +13,7 @@ use Porteiro\Facades\Porteiro as PorteiroFacade;
 use Porteiro\Http\Middleware\RiCa as RiCaMiddleware;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
+use Porteiro\Http\Middleware\Subscription as SubscriptionMiddleware;
 use Porteiro\Services\PorteiroService;
 
 class PorteiroProvider extends ServiceProvider
@@ -99,7 +100,6 @@ class PorteiroProvider extends ServiceProvider
         // $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
         // $this->app['router']->pushMiddlewareToGroup('web', 'user');
         // $this->app['router']->pushMiddlewareToGroup('web', 'admin');
-
         $this->app['router']->middlewareGroup(
             'user',
             [
@@ -121,11 +121,12 @@ class PorteiroProvider extends ServiceProvider
                 RiCaMiddleware::class
             ]
         );
+
         $this->app['router']->middlewareGroup(
-            'root',
+            'subscription',
             [
                 'web',
-                RiCaMiddleware::class
+                SubscriptionMiddleware::class
             ]
         );
 
