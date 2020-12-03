@@ -884,11 +884,23 @@ class User extends Base implements
     /**
      * Set default User Role.
      *
-     * @param string $name The role name to associate.
+     * @param string $role The role name to associate.
      */
-    public function setRole($name)
+    public function assignRole($role)
     {
-        $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+        return $this->setRole($role);
+    }
+
+    /**
+     * Set default User Role.
+     *
+     * @param string $role The role name to associate.
+     */
+    public function setRole($role)
+    {
+        if (is_string($role)) {
+            $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+        }
 
         if ($role) {
             $this->role()->associate($role);
@@ -898,6 +910,29 @@ class User extends Base implements
         return $this;
     }
 
+    /**
+     * Unassign a role from the user.
+     *
+     * @param string $role
+     * @param int    $userId
+     */
+    public function unassignRole($role)
+    {
+        if (is_string($role)) {
+            $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+        }
+
+        $this->roles()->detach($role);
+    }
+
+    /**
+     * Unassign all roles from the user.
+     *
+     */
+    public function unassignAllRoles()
+    {
+        $this->roles()->detach();
+    }
     public function hasPermission($name)
     {
         $this->loadPermissionsRelations();
