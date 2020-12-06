@@ -92,7 +92,7 @@ class SocialController extends SitecController
         }
 
         if (auth()->user()->hasRole('administrator')) {
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.dashboard');
         }
 
         return abort(500, trans('default.social_register_no_role'));
