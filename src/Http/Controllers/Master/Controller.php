@@ -1,6 +1,6 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Admin;
+namespace Porteiro\Http\Controllers\Master;
 
 use Porteiro\Http\Controllers\Controller as BaseController;
 

@@ -12,6 +12,9 @@ use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
 use Porteiro\Http\Middleware\RiCa as RiCaMiddleware;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
+use Porteiro\Http\Middleware\Master as MasterMiddleware;
+use Porteiro\Http\Middleware\Painel as PainelMiddleware;
+use Porteiro\Http\Middleware\Client as ClientMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
 use Porteiro\Http\Middleware\Subscription as SubscriptionMiddleware;
 use Porteiro\Services\PorteiroService;
@@ -40,24 +43,68 @@ class PorteiroProvider extends ServiceProvider
      */
     public static $menuItens = [
         [
-            'text'        => 'Usuários',
-            'route'       => 'admin.porteiro.users.index',
-            'icon'        => 'laptop',
-            'icon_color'  => 'red',
-            'label_color' => 'success',
-            // 'section'     => 'painel',
-            // 'level'       => 2,
-            // 'feature' => 'commerce',
+            'text'        => 'Workspace',
+            'url'         => 'painel',
+            'dontSection'     => 'painel',
+            'topnav' => true,
         ],
         [
-            'text'        => 'Permissões',
-            'route'       => 'admin.porteiro.permissions.index',
-            'icon'        => 'laptop',
-            'icon_color'  => 'red',
-            'label_color' => 'success',
-            // 'section'     => 'painel',
-            // 'level'       => 2,
-            // 'feature' => 'commerce',
+            'text'        => 'Master',
+            'url'         => 'master',
+            'dontSection'     => 'master',
+            'topnav' => true,
+        ],
+        [
+            'text'        => 'Administração',
+            'url'         => 'admin',
+            'dontSection'     => 'admin',
+            'topnav' => true,
+        ],
+        [
+            'text'        => 'RiCa',
+            'url'         => 'rica',
+            'dontSection'     => 'rica',
+            'topnav' => true,
+        ],
+        [
+            'text' => 'Cadastros',
+            'icon' => 'fas fa-fw fa-search',
+            'icon_color' => "blue",
+            'label_color' => "success",
+            'section'   => 'admin',
+            'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
+        ],
+        [
+            'text' => 'Acessos',
+            'icon' => 'fas fa-fw fa-search',
+            'icon_color' => "blue",
+            'label_color' => "success",
+            'section'   => 'admin',
+            'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
+        ],
+        'Cadastros' => [
+            [
+                'text'        => 'Usuários',
+                'route'       => 'admin.porteiro.users.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
+        ],
+        'Acessos' => [
+            [
+                'text'        => 'Permissões',
+                'route'       => 'admin.porteiro.permissions.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
         ],
     ];
     // /**
@@ -105,6 +152,27 @@ class PorteiroProvider extends ServiceProvider
             [
                 'web',
                 UserMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'client',
+            [
+                'web',
+                ClientMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'painel',
+            [
+                'web',
+                PainelMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'master',
+            [
+                'web',
+                MasterMiddleware::class
             ]
         );
         $this->app['router']->middlewareGroup(
