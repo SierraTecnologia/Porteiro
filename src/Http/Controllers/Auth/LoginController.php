@@ -74,7 +74,7 @@ class LoginController extends Controller
             $remember == 1 ? true : false
         )
         ) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.porteiro.dashboard');
             if (Auth::user()->hasRole('root')) {
                 return redirect()->route('rica.dashboard');
             }

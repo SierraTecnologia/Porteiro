@@ -282,7 +282,7 @@ class User extends Base implements
         if ($this->hasRole('user')) {
             $url = route('user.home');
         } else {
-            $url = route('admin.dashboard');
+            $url = route('admin.porteiro.dashboard');
         }
 
         return $url;
