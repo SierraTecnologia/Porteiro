@@ -43,7 +43,7 @@ class PorteiroProvider extends ServiceProvider
      */
     public static $menuItens = [
         [
-            'text'        => 'Workspace',
+            'text'        => 'Painel',
             'url'         => 'painel',
             'dontSection'     => 'painel',
             'topnav' => true,
