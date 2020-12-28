@@ -2,8 +2,8 @@
 
 namespace Porteiro\Services;
 
-use App\Models\Menu;
-use App\Models\MenuItem;
+use Siravel\Models\Negocios\Menu;
+use Siravel\Models\Negocios\MenuItem;
 use App\Models\Permission;
 use Porteiro\Models\Role;
 use App\Models\Setting;
