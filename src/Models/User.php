@@ -268,27 +268,60 @@ class User extends Base implements
         return $name[strlen($name)-1];
     }
 
+    public function isRoot()
+    {
+        return $this->admin == 2;
+    }
     /**
      * Verifica se é admin para exibir informações dos outros usuários ou não
      */
     public function isAdmin()
     {
-        if ($this->email == 'ricardo@ricasolucoes.com.br') {
+        if ($this->isRoot() || $this->email == 'ricardo@ricasolucoes.com.br') {
             return true;
         }
-        return $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
+        return $this->admin >= 1 || $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
+    }
+
+    /**
+     * @todo
+     */
+    public function isClient()
+    {
         return false;
     }
 
     public function homeUrl()
     {
+        // @todo Criar Permissoes Corretamente
+        // if ($this->isAdmin()) {
+        //     return route('rica.porteiro.dashboard');
+        // }
+
+        // if ($this->isAdmin()) {
+        //     return route('admin.porteiro.dashboard');
+        // }
+
+        if ($this->isAdmin()) {
+            return route('master.porteiro.dashboard');
+        }
+
+        if ($this->isClient()) {
+            return route('client.porteiro.dashboard');
+        }
+
+        return route('painel.porteiro.dashboard');
+        
+        /**
+         * @todo
+         * redirect('dashboard');
         if ($this->hasRole('user')) {
             $url = route('user.home');
         } else {
-            $url = route('admin.porteiro.dashboard');
+            $url = route('painel.porteiro.dashboard');
         }
 
-        return $url;
+        return $url; */
     }
 
 
@@ -901,16 +934,20 @@ class User extends Base implements
      */
     public function setRole($role)
     {
-        if (is_string($role)) {
-            $role = Porteiro::model('Role')->where('name', '=', $name)->first();
-        }
+        try {
+            if (is_string($role)) {
+                $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+            }
 
-        if ($role) {
-            $this->role()->associate($role);
-            $this->save();
-        }
+            if ($role) {
+                $this->role()->associate($role);
+                $this->save();
+            }
 
-        return $this;
+            return $this;
+        } catch (\Throwable $th) {
+            return $this->roles()->attach($role);
+        }
     }
 
     /**
@@ -921,11 +958,19 @@ class User extends Base implements
      */
     public function unassignRole($role)
     {
-        if (is_string($role)) {
-            $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+        try {
+            if (is_string($role)) {
+                $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+            }
+    
+            $this->roles()->detach($role);
+        } catch (\Throwable $th) {
+            return $this->roles()->detach($role);
         }
-
-        $this->roles()->detach($role);
+    }
+    public function removeRole($role)
+    {
+        return $this->unassignRole($role);
     }
 
     /**
