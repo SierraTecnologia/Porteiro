@@ -32,7 +32,7 @@ class PorteiroProvider extends ServiceProvider
 
     public static $providers = [
 
-        \Pedreiro\PedreiroProviderService::class,
+        \Pedreiro\PedreiroServiceProvider::class,
         // HAML
         \Bkwld\LaravelHaml\ServiceProvider::class,
 
@@ -42,30 +42,6 @@ class PorteiroProvider extends ServiceProvider
      * Rotas do Menu
      */
     public static $menuItens = [
-        [
-            'text'        => 'Painel',
-            'url'         => 'painel',
-            'dontSection'     => 'painel',
-            'topnav' => true,
-        ],
-        [
-            'text'        => 'Master',
-            'url'         => 'master',
-            'dontSection'     => 'master',
-            'topnav' => true,
-        ],
-        [
-            'text'        => 'Administração',
-            'url'         => 'admin',
-            'dontSection'     => 'admin',
-            'topnav' => true,
-        ],
-        [
-            'text'        => 'RiCa',
-            'url'         => 'rica',
-            'dontSection'     => 'rica',
-            'topnav' => true,
-        ],
         [
             'text' => 'Cadastros',
             'icon' => 'fas fa-fw fa-search',
