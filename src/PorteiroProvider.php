@@ -43,14 +43,6 @@ class PorteiroProvider extends ServiceProvider
      */
     public static $menuItens = [
         [
-            'text' => 'Cadastros',
-            'icon' => 'fas fa-fw fa-search',
-            'icon_color' => "blue",
-            'label_color' => "success",
-            'section'   => 'admin',
-            'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
-        ],
-        [
             'text' => 'Acessos',
             'icon' => 'fas fa-fw fa-search',
             'icon_color' => "blue",
@@ -58,7 +50,7 @@ class PorteiroProvider extends ServiceProvider
             'section'   => 'admin',
             'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
         ],
-        'Cadastros' => [
+        'Acessos' => [
             [
                 'text'        => 'Usuários',
                 'route'       => 'admin.porteiro.users.index',
@@ -69,8 +61,16 @@ class PorteiroProvider extends ServiceProvider
                 // 'level'       => 2,
                 // 'feature' => 'commerce',
             ],
-        ],
-        'Acessos' => [
+            [
+                'text'        => 'Grupos',
+                'route'       => 'admin.porteiro.roles.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
             [
                 'text'        => 'Permissões',
                 'route'       => 'admin.porteiro.permissions.index',

@@ -49,6 +49,7 @@ class Subscription
      */
     public function handle($request, Closure $next)
     {
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             if (!$userMeta = $this->auth->user()->userMeta()->first()) {
                 return $this->response->redirectTo('/subscription');

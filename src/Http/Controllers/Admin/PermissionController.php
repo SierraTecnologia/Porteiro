@@ -2,8 +2,7 @@
 
 namespace Porteiro\Http\Controllers\Admin;
 
-use App\Http\ControllersController;
-use App\Models\Permission;
+use Porteiro\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
