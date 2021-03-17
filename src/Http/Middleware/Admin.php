@@ -48,7 +48,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        // dd('adminrica', $this->auth);
+        // dd('adminrica', $this->auth->check());
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 
@@ -60,6 +60,7 @@ class Admin
             return $next($request);
         }
         Log::info('Sem permissão para admin, redirecionando! ');
+        // return response()->view('errors.401', [], 401);
         return $this->response->redirectTo('/');
     }
 }

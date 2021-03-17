@@ -1,4 +1,4 @@
-!= View::make('support::shared.form._header', $__data)->render()
+!= View::make('pedreiro::shared.form._header', $__data)->render()
 
 %fieldset
 	.legend= empty($item) ? __('pedreiro::admins.legend.new') : __('pedreiro::admins.legend.edit')
@@ -54,4 +54,4 @@
 				!= __('pedreiro::admins.form.enable')
 	-$actions = ob_get_clean();
 
-!= View::make('support::shared.form._footer', array_merge($__data, ['actions' => $actions]))->render()
+!= View::make('pedreiro::shared.form._footer', array_merge($__data, ['actions' => $actions]))->render()

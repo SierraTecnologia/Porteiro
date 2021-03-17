@@ -165,6 +165,14 @@ class PorteiroProvider extends ServiceProvider
                 RiCaMiddleware::class
             ]
         );
+        // Repete por causa de conflitos
+        $this->app['router']->middlewareGroup(
+            'root',
+            [
+                'web',
+                RiCaMiddleware::class
+            ]
+        );
 
         $this->app['router']->middlewareGroup(
             'subscription',
@@ -220,7 +228,6 @@ class PorteiroProvider extends ServiceProvider
             ],
             'public'
         );
-
 
         // COloquei no register pq nao tava reconhecendo as rotas para o adminlte
         $this->app->booted(function () {

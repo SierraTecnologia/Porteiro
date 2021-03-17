@@ -274,6 +274,7 @@ class User extends Base implements
     }
     /**
      * Verifica se é admin para exibir informações dos outros usuários ou não
+     * @todo add essa validação ($user->roles->first()->name === 'admin' || $user->id == 1)
      */
     public function isAdmin()
     {

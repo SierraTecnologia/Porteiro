@@ -64,7 +64,7 @@ class LoginController extends Controller
         $email      = $request->get('email');
         $password   = $request->get('password');
         $remember   = $request->get('remember');
-// 
+
         // dd('oiuiuiui');
         if (Auth::attempt(
             [
