@@ -20,7 +20,7 @@ use Laravel\Passport\HasApiTokens;
 use Mail;
 use Muleta\Traits\Models\HasImages;
 use Request;
-use SupportURL;
+use PedreiroURL;
 use URL;
 
 class Admin extends Base implements

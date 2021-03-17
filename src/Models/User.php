@@ -30,7 +30,7 @@ use Request;
 // use App\Models\Model;
 // use Illuminate\Contracts\Auth\Access\Authorizable;
 // use Illuminate\Contracts\Auth\CanResetPassword;
-use SupportURL;
+use PedreiroURL;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Telefonica\Traits\AsHuman;
 use URL;
@@ -635,7 +635,7 @@ class User extends Base implements
 
         // If row is disabled
         if ($this->disabled()) {
-            $html .= '<a href="' . URL::to(SupportURL::relative('enable', $this->id)) . '" class="label label-warning
+            $html .= '<a href="' . URL::to(PedreiroURL::relative('enable', $this->id)) . '" class="label label-warning
                 js-tooltip" title="' . __('pedreiro::admins.standard_list.click') . '">' .
                 __('pedreiro::admins.standard_list.disabled') . '</a>';
         }
@@ -651,7 +651,7 @@ class User extends Base implements
      */
     public function getAdminEditAttribute()
     {
-        return SupportURL::action('Porteiro\Http\Controllers\Admin\Admins@edit', $this->id);
+        return PedreiroURL::action('Porteiro\Http\Controllers\Admin\Admins@edit', $this->id);
     }
 
     /**
@@ -732,7 +732,7 @@ class User extends Base implements
                 return (object) [
 
                 // Add controller information
-                'slug' => SupportURL::slugController($class),
+                'slug' => PedreiroURL::slugController($class),
                 'title' => $obj->title(),
                 'description' => $obj->description(),
 
