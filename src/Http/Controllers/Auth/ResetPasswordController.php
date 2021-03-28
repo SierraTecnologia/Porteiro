@@ -5,6 +5,7 @@ namespace Porteiro\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use View;
 
 class ResetPasswordController extends Controller
 {
@@ -27,4 +28,15 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function showResetForm(Request $request, $token = null){
+        if (View::exists('auth.passwords.reset')) {
+            return view('auth.passwords.reset')->with(
+                ['token' => $token, 'email' => $request->email]
+            );
+        }
+        return view('porteiro::auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
 }

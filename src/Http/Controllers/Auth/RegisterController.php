@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use View;
 
 class RegisterController extends Controller
 {
@@ -43,6 +44,13 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
         $this->service = $userService;
+    }
+
+    public function showRegistrationForm() {
+        if (View::exists('auth.register')) {
+            return view('auth.register');
+        }
+        return view('porteiro::auth.register');
     }
 
     /**

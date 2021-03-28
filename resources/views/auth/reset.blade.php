@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends(Templeiro::loadRelativeView('layouts.master'))
 
 @section('content')
     <div class="container-fluid">

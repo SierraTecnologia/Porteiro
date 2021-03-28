@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Validator;
+use View;
 
 class LoginController extends Controller
 {
@@ -45,6 +46,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm()
+    {
+        if (View::exists('auth.login')) {
+            return view('auth.login');
+        }
+        return view('porteiro::auth.login');
+    }
+
     /**
      * Check user's role and redirect user based on their role
      *
@@ -85,7 +95,6 @@ class LoginController extends Controller
 
             return redirect()->route('rica.dashboard');
         }
-        
 
         return redirect()->back()
             ->with('message', trans('default.incorrect_email_or_password'))

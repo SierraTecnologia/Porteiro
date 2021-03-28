@@ -48,8 +48,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.env') !== 'production') return $next($request); // @debug @todo
-        // dd('adminrica', $this->auth->check());
+        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 
