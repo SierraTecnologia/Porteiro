@@ -57,7 +57,7 @@ class Painel extends Middleware
         }
         Log::info('Sem permissão para painel, redirecionando! ');
         // return response()->view('errors.401', [], 401);
-        return $this->response->redirectTo('/');
+        return $this->response->redirectTo($this->auth->user()->homeUrl());
     }
     /**
      * Get the path the user should be redirected to when they are not authenticated.

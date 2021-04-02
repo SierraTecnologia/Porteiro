@@ -8,6 +8,7 @@ use App\Models\Permission;
 use Porteiro\Models\Role;
 use App\Models\Setting;
 use App\Models\Translation;
+use Auth;
 use Illuminate\Support\Str;
 
 /**
@@ -17,21 +18,21 @@ class PorteiroService
 {
     protected $config;
 
-    protected $models = [
-        'Category'          => Category::class,
-        'DataRow'           => DataRow::class,
-        'DataRelationship'  => DataRelationship::class,
-        'DataType'          => DataType::class,
-        'Menu'              => Menu::class,
-        'MenuItem'          => MenuItem::class,
-        'Page'              => Page::class,
-        'Permission'        => Permission::class,
-        'Post'              => Post::class,
-        'Role'              => Role::class,
-        'Setting'           => Setting::class,
-        'User'              => User::class,
-        'Translation'       => Translation::class,
-    ];
+    // protected $models = [
+    //     'Category'          => Category::class,
+    //     'DataRow'           => DataRow::class,
+    //     'DataRelationship'  => DataRelationship::class,
+    //     'DataType'          => DataType::class,
+    //     'Menu'              => Menu::class,
+    //     'MenuItem'          => MenuItem::class,
+    //     'Page'              => Page::class,
+    //     'Permission'        => Permission::class,
+    //     'Post'              => Post::class,
+    //     'Role'              => Role::class,
+    //     'Setting'           => Setting::class,
+    //     'User'              => User::class,
+    //     'Translation'       => Translation::class,
+    // ];
 
     public function __construct($config = false)
     {
@@ -40,13 +41,21 @@ class PorteiroService
         }
     }
 
-    public function model($name)
-    {
-        return app($this->models[Str::studly($name)]);
-    }
+    // public function model($name)
+    // {
+    //     return app($this->models[Str::studly($name)]);
+    // }
 
-    public function modelClass($name)
+    // public function modelClass($name)
+    // {
+    //     return $this->models[$name];
+    // }
+
+    public function canOrFail($codePermission)
     {
-        return $this->models[$name];
+        if (!$user = Auth::user()) {
+            throw new \Exception('Sem permissao: '.$codePermission);
+        }
+        return $user->can($codePermission);
     }
 }

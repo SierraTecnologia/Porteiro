@@ -220,27 +220,6 @@ class User extends Base implements
     
 
     /**
-     * Referentes a Business
-     *
-     * Retorna 3 Caso seja Deus
-     * Retorna 2 Caso seja Admin
-     * Retorna 1 Caso seja Inscrito
-     * Retorna 0 Caso não seja Inscrito no Business
-     */
-    public function getLevelForAcessInBusiness()
-    {
-        if ($this->admin == 2) {
-            return 2;
-        }
-
-        if ($this->admin == 1) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    /**
      * Mostra o tipo de usuário para o cliente
      */
     public function getUserType()
@@ -268,6 +247,44 @@ class User extends Base implements
         return $name[strlen($name)-1];
     }
 
+
+    /**
+     * Referentes a Business
+     *
+     * Retorna 3 Caso seja Deus
+     * Retorna 2 Caso seja Admin
+     * Retorna 1 Caso seja Inscrito
+     * Retorna 0 Caso não seja Inscrito no Business
+     */
+    public function getLevelForAcessInBusiness()
+    {
+        if ($this->isRoot()) {
+            return 3;
+        }
+        if ($this->isAdmin()) {
+            return 2;
+        }
+
+        if ($this->isAdmin()) {
+            return 1;
+        }
+
+        return 0;
+    }
+    public function hasAccessTo($section)
+    {
+        if ($section=='rica' && !$this->isRoot()) {
+            return false;
+        } else if ($section=='admin' && !$this->isAdmin()) {
+            return false;
+        } else if ($section=='master' && !$this->isMaster()) {
+            return false;
+        } else if ($section=='client' && !$this->isClient()) {
+            return false;
+        }
+
+        return true;
+    }
     public function isRoot()
     {
         return $this->admin == 2;
@@ -282,6 +299,13 @@ class User extends Base implements
             return true;
         }
         return $this->admin >= 1 || $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
+    }
+    public function isMaster()
+    {
+        if ($this->isAdmin() || $this->email == 'ricardo@ricasolucoes.com.br') {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -299,11 +323,15 @@ class User extends Base implements
         //     return route('rica.porteiro.dashboard');
         // }
 
-        // if ($this->isAdmin()) {
-        //     return route('admin.porteiro.dashboard');
-        // }
+        if ($this->isRoot()) {
+            return route('root.porteiro.dashboard');
+        }
 
         if ($this->isAdmin()) {
+            return route('admin.porteiro.dashboard');
+        }
+
+        if ($this->isMaster()) {
             return route('master.porteiro.dashboard');
         }
 
@@ -509,6 +537,19 @@ class User extends Base implements
             ->forUser($this)
             ->check('facilitador.auth', [$action, $controller]);
     }
+
+    /**
+     * Determine if the entity has a given ability.
+     *
+     * @param  string $action
+     * @param  string $controller
+     * @return bool
+     */
+    public function can($action, $controller)
+    {
+        return $this->canHability($action, $controller);
+    }
+
 
     /**
      * Determine if the entity does not have a given ability.

@@ -54,6 +54,7 @@ class Subscription
         if ($this->auth->check()) {
             // dd($this->auth->user()->userMeta()->first());
             if (!$userMeta = $this->auth->user()->userMeta()->first()) {
+                Log::info('Sem permissão para subscription, redirecionando! ');
                 return $this->response->redirectTo('/subscription');
             }
             

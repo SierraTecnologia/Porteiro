@@ -33,8 +33,6 @@ class PorteiroProvider extends ServiceProvider
     public static $providers = [
 
         \Pedreiro\PedreiroServiceProvider::class,
-        // HAML
-        \Bkwld\LaravelHaml\ServiceProvider::class,
 
         
     ];
@@ -294,13 +292,6 @@ class PorteiroProvider extends ServiceProvider
                     ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
             }
         );
-
-        // Build the Elements collection
-        $this->app->singleton(
-            'facilitador.elements', function ($app) {
-                return with(new \Pedreiro\Collections\Elements)->setModel(\Support\Models\Element::class);
-            }
-        );
     }
     
 
@@ -314,7 +305,6 @@ class PorteiroProvider extends ServiceProvider
         return [
             'porteiro',
             'facilitador.acl_fail',
-            'facilitador.elements',
             'facilitador.user',
         ];
     }

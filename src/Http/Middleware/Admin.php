@@ -50,11 +50,9 @@ class Admin
     {
         // if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
-            $admin = (int) $this->auth->user()->admin;
-
-            if ($admin<1) {
+            if (!$this->auth->user()->isAdmin()) {
                 Log::info('Usuario sem permissão para admin, redirecionando! ');
-                return $this->response->redirectTo('/');
+                return $this->response->redirectTo($this->auth->user()->homeUrl());
             }
 
             return $next($request);
