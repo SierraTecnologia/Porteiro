@@ -12,6 +12,7 @@ use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 use Tracking\Services\AnalyticsService;
 use Pedreiro\Components\BoxComponent;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -27,7 +28,6 @@ class DashboardController extends Controller
         $title = "Home";
         $boxComponents = [];
 
-        
         if (class_exists(\Cms\Models\Blog\Blog::class)){
 
             $boxComponents[] = BoxComponent::create(

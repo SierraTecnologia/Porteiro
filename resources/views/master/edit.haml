@@ -29,7 +29,7 @@
 			&& ($roles = Config::get('sitec.site.roles'))
 			&& !empty($roles)) {
 			echo Former::radiolist('role')->label(__('pedreiro::admins.form.role'))->from($roles);
-			echo View::make('facilitador::admins._permissions', $__data)->render();
+			echo View::make('porteiro::master._permissions', $__data)->render();
 		}
 
 		// Send email

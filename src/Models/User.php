@@ -273,7 +273,7 @@ class User extends Base implements
     }
     public function hasAccessTo($section)
     {
-        if ($section=='rica' && !$this->isRoot()) {
+        if (($section=='rica' || $section=='root') && !$this->isRoot()) {
             return false;
         } else if ($section=='admin' && !$this->isAdmin()) {
             return false;

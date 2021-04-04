@@ -1,6 +1,6 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Admin;
+namespace Porteiro\Http\Controllers\Master;
 
 use Porteiro\Models\Role;
 // use Facilitador\Services\FacilitadorService;
@@ -45,7 +45,7 @@ class RoleController extends Controller
 
     //     // $roles = Role::all();
 
-    //     // return view('admin.roles.index', compact('roles'));
+    //     // return view('master.roles.index', compact('roles'));
     // }
 
     // /**
@@ -55,7 +55,7 @@ class RoleController extends Controller
     //  */
     // public function create(Request $request)
     // {
-    //     return view('porteiro::admin.roles.create');
+    //     return view('porteiro::master.roles.create');
     // }
 
     // /**
@@ -83,7 +83,7 @@ class RoleController extends Controller
     // {
     //     $role = Role::findOrFail($id);
 
-    //     return view('porteiro::admin.roles.edit', compact('role'));
+    //     return view('porteiro::master.roles.edit', compact('role'));
     // }
 
     // /**

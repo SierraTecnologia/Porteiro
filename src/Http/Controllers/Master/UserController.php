@@ -1,6 +1,6 @@
 <?php
 
-namespace Porteiro\Http\Controllers\Admin;
+namespace Porteiro\Http\Controllers\Master;
 
 use Hash;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $users = \App\Models\User::all();
 
-        return view('porteiro::admin.users.index', compact('users'));
+        return view('porteiro::master.users.index', compact('users'));
     }
 
     /**
@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::findOrfail($id);
 
-        return view('porteiro::admin.users.show', compact('user'));
+        return view('porteiro::master.users.show', compact('user'));
     }
 
     /**
@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        return view('porteiro::admin.users.create');
+        return view('porteiro::master.users.create');
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
         $userRoles = $user->roles;
         $userPermissions = $user->permissions;
 
-        return view('porteiro::admin.users.edit', compact('user', 'roles', 'permissions', 'userRoles', 'userPermissions'));
+        return view('porteiro::master.users.edit', compact('user', 'roles', 'permissions', 'userRoles', 'userPermissions'));
     }
 
     /**
