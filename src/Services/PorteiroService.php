@@ -18,21 +18,20 @@ class PorteiroService
 {
     protected $config;
 
-    // protected $models = [
-    //     'Category'          => Category::class,
-    //     'DataRow'           => DataRow::class,
-    //     'DataRelationship'  => DataRelationship::class,
-    //     'DataType'          => DataType::class,
-    //     'Menu'              => Menu::class,
-    //     'MenuItem'          => MenuItem::class,
-    //     'Page'              => Page::class,
-    //     'Permission'        => Permission::class,
-    //     'Post'              => Post::class,
-    //     'Role'              => Role::class,
-    //     'Setting'           => Setting::class,
-    //     'User'              => User::class,
-    //     'Translation'       => Translation::class,
-    // ];
+    protected $models = [
+        'Permission'        => [
+            'App\Models\Permission',
+            'Porteiro\Models\Permission',
+        ],
+        'Role'              => [
+            'App\Models\Role',
+            'Porteiro\Models\Role',
+        ],
+        'User'              => [
+            'App\Models\User',
+            'Porteiro\Models\User',
+        ],
+    ];
 
     public function __construct($config = false)
     {
@@ -41,20 +40,27 @@ class PorteiroService
         }
     }
 
-    // public function model($name)
-    // {
-    //     return app($this->models[Str::studly($name)]);
-    // }
+    public function model($name)
+    {
+        return app($this->modelClass($name));
+    }
 
-    // public function modelClass($name)
-    // {
-    //     return $this->models[$name];
-    // }
+    public function modelClass($name)
+    {
+        $name = Str::studly($name);
+        $classes = $this->models[$name];
+        foreach ($classes as $class) {
+            if (class_exists($class)) {
+                return $class;
+            }
+        }
+        throw new \Exception('Porteiro: Classe não encontrada: '.$name);
+    }
 
     public function canOrFail($codePermission)
     {
         if (!$user = Auth::user()) {
-            throw new \Exception('Sem permissao: '.$codePermission);
+            throw new \Exception('Porteiro: Sem permissao: '.$codePermission);
         }
         return $user->can($codePermission);
     }

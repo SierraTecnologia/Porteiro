@@ -15,7 +15,7 @@ class PorteiroUserController extends Controller
         $route = '';
         $dataType = Porteiro::model('DataType')->where('model_name', Auth::guard(app('PorteiroGuard'))->getProvider()->getModel())->first();
         if (!$dataType && app('PorteiroGuard') == 'web') {
-            $route = route('facilitador.users.edit', Auth::user()->getKey());
+            $route = route('rica.facilitador.users.edit', Auth::user()->getKey());
         } elseif ($dataType) {
             $route = UrlGenerator::managerRoute($dataType->slug, 'edit', Auth::user()->getKey());
             // $route = \Pedreiro\Routing\UrlGenerator::managerRoute($dataType->slug, 'edit', Auth::user()->getKey());
