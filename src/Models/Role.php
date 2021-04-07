@@ -4,6 +4,7 @@ namespace Porteiro\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Porteiro\Facades\Porteiro;
+use Population\Manipule\Builders\RoleBuilder;
 
 class Role extends Model
 {
@@ -78,5 +79,20 @@ class Role extends Model
     public function findByName($name)
     {
         return $this->where('name', $name)->firstOrFail();
+    }
+    /**
+     * @inheritdoc
+     */
+    public function newEloquentBuilder($query): RoleBuilder
+    {
+        return new RoleBuilder($query);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function newQuery(): RoleBuilder
+    {
+        return parent::newQuery();
     }
 }

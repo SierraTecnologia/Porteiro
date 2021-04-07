@@ -7,6 +7,7 @@ use Bkwld\Library\Utils\Text;
 use Carbon\Carbon;
 use Config;
 use HTML;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Gate;
