@@ -51,13 +51,14 @@ class Painel extends Middleware
      */
     public function handle($request, Closure $next)
     {
-        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
-        if ($this->auth->check()) {
-            return $next($request);
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
+        if (!$this->auth->check()) {
+            Log::info('Sem permissão para painel, redirecionando! ');
+            return $this->response->redirectTo('/');
         }
-        Log::info('Sem permissão para painel, redirecionando! ');
         // return response()->view('errors.401', [], 401);
-        return $this->response->redirectTo($this->auth->user()->homeUrl());
+        // return $this->response->redirectTo($this->auth->user()->homeUrl());
+        return $next($request);
     }
     /**
      * Get the path the user should be redirected to when they are not authenticated.
