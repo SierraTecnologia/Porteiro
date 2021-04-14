@@ -51,7 +51,7 @@ class Master extends Middleware
      */
     public function handle($request, Closure $next)
     {
-        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             if (!$this->auth->user()->isMaster()) {
                 Log::info('Usuario sem permissão para master, redirecionando! ');

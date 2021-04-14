@@ -49,7 +49,7 @@ class RiCa
      */
     public function handle($request, Closure $next)
     {
-        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 
