@@ -11,7 +11,7 @@
         "php": "^7.1",
         "ext-curl": "*",
         "ext-json": "*",
-        "laravel/passport": "^10.0",
+        "laravel/passport": "^8.0|^9.0|^10.0",
         "laravel/socialite": "^5.0",
         "creativeorange/gravatar": "^1.0",
         "ricardosierra/laravel-haml": "^2.4",
