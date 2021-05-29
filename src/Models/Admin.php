@@ -3,7 +3,7 @@
 namespace Porteiro\Models;
 
 // Deps
-use Bkwld\Library\Utils\Text;
+use Muleta\Library\Utils\Text;
 use Config;
 use Porteiro;
 use Porteiro\Auth\AuthInterface;

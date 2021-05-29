@@ -3,7 +3,7 @@
 namespace Porteiro\Models;
 
 // Deps
-use Bkwld\Library\Utils\Text;
+use Muleta\Library\Utils\Text;
 use Carbon\Carbon;
 use Config;
 use HTML;
