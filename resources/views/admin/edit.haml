@@ -1,4 +1,4 @@
-!= View::make('support::shared.form._header', $__data)->render()
+!= View::make('pedreiro::shared.form._header', $__data)->render()
 
 %fieldset
 	.legend= empty($item) ? __('pedreiro::admins.legend.new') : __('pedreiro::admins.legend.edit')
@@ -29,7 +29,7 @@
 			&& ($roles = Config::get('sitec.site.roles'))
 			&& !empty($roles)) {
 			echo Former::radiolist('role')->label(__('pedreiro::admins.form.role'))->from($roles);
-			echo View::make('facilitador::admins._permissions', $__data)->render();
+			echo View::make('porteiro::master._permissions', $__data)->render();
 		}
 
 		// Send email
@@ -45,13 +45,13 @@
 
 		-# Disable admin
 		-if (!$item->disabled())
-			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.disable_tooltip') href=URL::to(SupportURL::relative('disable', $item->id)))
+			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.disable_tooltip') href=URL::to(PedreiroURL::relative('disable', $item->id)))
 				%span.glyphicon.glyphicon-ban-circle
 				!= __('pedreiro::admins.form.disable')
 		-else
-			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.enable_tooltip') href=URL::to(SupportURL::relative('enable', $item->id)))
+			%a.btn.btn-warning.js-tooltip(title=__('pedreiro::admins.form.enable_tooltip') href=URL::to(PedreiroURL::relative('enable', $item->id)))
 				%span.glyphicon.glyphicon-ban-circle
 				!= __('pedreiro::admins.form.enable')
 	-$actions = ob_get_clean();
 
-!= View::make('support::shared.form._footer', array_merge($__data, ['actions' => $actions]))->render()
+!= View::make('pedreiro::shared.form._footer', array_merge($__data, ['actions' => $actions]))->render()

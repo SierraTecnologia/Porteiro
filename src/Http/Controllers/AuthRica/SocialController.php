@@ -111,7 +111,7 @@ class SocialController extends Controller
 
         if (auth()->user()->hasRole('administrator')) {
 
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.porteiro.dashboard');
 
         }
 

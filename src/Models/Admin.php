@@ -3,7 +3,7 @@
 namespace Porteiro\Models;
 
 // Deps
-use Bkwld\Library\Utils\Text;
+use Muleta\Library\Utils\Text;
 use Config;
 use Porteiro;
 use Porteiro\Auth\AuthInterface;
@@ -20,7 +20,7 @@ use Laravel\Passport\HasApiTokens;
 use Mail;
 use Muleta\Traits\Models\HasImages;
 use Request;
-use SupportURL;
+use PedreiroURL;
 use URL;
 
 class Admin extends Base implements

@@ -1,4 +1,5 @@
-<?php namespace Porteiro\Http\Middleware;
+<?php 
+namespace Porteiro\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -48,12 +49,13 @@ class RiCa
      */
     public function handle($request, Closure $next)
     {
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 
-            if ($admin<1) {
-                Log::info('Usuario sem permissão para rica, redirecionando! ');
-                return $this->response->redirectTo('/');
+            if (!$this->auth->user()->isRoot()) {
+                Log::info('Usuario sem permissão para rica(root), redirecionando! ');
+                return $this->response->redirectTo($this->auth->user()->homeUrl());
             }
 
             return $next($request);

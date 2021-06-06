@@ -3,10 +3,11 @@
 namespace Porteiro\Models;
 
 // Deps
-use Bkwld\Library\Utils\Text;
+use Muleta\Library\Utils\Text;
 use Carbon\Carbon;
 use Config;
 use HTML;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -30,7 +31,7 @@ use Request;
 // use App\Models\Model;
 // use Illuminate\Contracts\Auth\Access\Authorizable;
 // use Illuminate\Contracts\Auth\CanResetPassword;
-use SupportURL;
+use PedreiroURL;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Telefonica\Traits\AsHuman;
 use URL;
@@ -220,27 +221,6 @@ class User extends Base implements
     
 
     /**
-     * Referentes a Business
-     *
-     * Retorna 3 Caso seja Deus
-     * Retorna 2 Caso seja Admin
-     * Retorna 1 Caso seja Inscrito
-     * Retorna 0 Caso não seja Inscrito no Business
-     */
-    public function getLevelForAcessInBusiness()
-    {
-        if ($this->admin == 2) {
-            return 2;
-        }
-
-        if ($this->admin == 1) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    /**
      * Mostra o tipo de usuário para o cliente
      */
     public function getUserType()
@@ -268,24 +248,110 @@ class User extends Base implements
         return $name[strlen($name)-1];
     }
 
+
+    /**
+     * Referentes a Business
+     *
+     * Retorna 3 Caso seja Deus
+     * Retorna 2 Caso seja Admin
+     * Retorna 1 Caso seja Inscrito
+     * Retorna 0 Caso não seja Inscrito no Business
+     */
+    public function getLevelForAcessInBusiness()
+    {
+        if ($this->isRoot()) {
+            return 3;
+        }
+        if ($this->isAdmin()) {
+            return 2;
+        }
+
+        if ($this->isAdmin()) {
+            return 1;
+        }
+
+        return 0;
+    }
+    public function hasAccessTo($section)
+    {
+        if (($section=='rica' || $section=='root') && !$this->isRoot()) {
+            return false;
+        } else if ($section=='admin' && !$this->isAdmin()) {
+            return false;
+        } else if ($section=='master' && !$this->isMaster()) {
+            return false;
+        } else if ($section=='client' && !$this->isClient()) {
+            return false;
+        }
+
+        return true;
+    }
+    public function isRoot()
+    {
+        return $this->admin == 2;
+    }
     /**
      * Verifica se é admin para exibir informações dos outros usuários ou não
+     * @todo add essa validação ($user->roles->first()->name === 'admin' || $user->id == 1)
      */
     public function isAdmin()
     {
-        return $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
+        if ($this->isRoot() || $this->email == 'ricardo@ricasolucoes.com.br') {
+            return true;
+        }
+        return $this->admin >= 1 || $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
+    }
+    public function isMaster()
+    {
+        if ($this->isAdmin() || $this->email == 'ricardo@ricasolucoes.com.br') {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @todo
+     */
+    public function isClient()
+    {
         return false;
     }
 
     public function homeUrl()
     {
+        // @todo Criar Permissoes Corretamente
+        // if ($this->isAdmin()) {
+        //     return route('rica.porteiro.dashboard');
+        // }
+
+        if ($this->isRoot()) {
+            return route('root.porteiro.dashboard');
+        }
+
+        if ($this->isAdmin()) {
+            return route('admin.porteiro.dashboard');
+        }
+
+        if ($this->isMaster()) {
+            return route('master.porteiro.dashboard');
+        }
+
+        if ($this->isClient()) {
+            return route('client.porteiro.dashboard');
+        }
+
+        return route('painel.porteiro.dashboard');
+        
+        /**
+         * @todo
+         * redirect('dashboard');
         if ($this->hasRole('user')) {
             $url = route('user.home');
         } else {
-            $url = route('admin.home');
+            $url = route('painel.porteiro.dashboard');
         }
 
-        return $url;
+        return $url; */
     }
 
 
@@ -474,6 +540,19 @@ class User extends Base implements
     }
 
     /**
+     * Determine if the entity has a given ability.
+     *
+     * @param  string $action
+     * @param  string $controller
+     * @return bool
+     */
+    public function can($action, $controller)
+    {
+        return $this->canHability($action, $controller);
+    }
+
+
+    /**
      * Determine if the entity does not have a given ability.
      *
      * @param  string $action
@@ -598,7 +677,7 @@ class User extends Base implements
 
         // If row is disabled
         if ($this->disabled()) {
-            $html .= '<a href="' . URL::to(SupportURL::relative('enable', $this->id)) . '" class="label label-warning
+            $html .= '<a href="' . URL::to(PedreiroURL::relative('enable', $this->id)) . '" class="label label-warning
                 js-tooltip" title="' . __('pedreiro::admins.standard_list.click') . '">' .
                 __('pedreiro::admins.standard_list.disabled') . '</a>';
         }
@@ -614,7 +693,7 @@ class User extends Base implements
      */
     public function getAdminEditAttribute()
     {
-        return SupportURL::action('Porteiro\Http\Controllers\Admin\Admins@edit', $this->id);
+        return PedreiroURL::action('Porteiro\Http\Controllers\Admin\Admins@edit', $this->id);
     }
 
     /**
@@ -695,7 +774,7 @@ class User extends Base implements
                 return (object) [
 
                 // Add controller information
-                'slug' => SupportURL::slugController($class),
+                'slug' => PedreiroURL::slugController($class),
                 'title' => $obj->title(),
                 'description' => $obj->description(),
 
@@ -884,20 +963,67 @@ class User extends Base implements
     /**
      * Set default User Role.
      *
-     * @param string $name The role name to associate.
+     * @param string $role The role name to associate.
      */
-    public function setRole($name)
+    public function assignRole($role)
     {
-        $role = Porteiro::model('Role')->where('name', '=', $name)->first();
-
-        if ($role) {
-            $this->role()->associate($role);
-            $this->save();
-        }
-
-        return $this;
+        return $this->setRole($role);
     }
 
+    /**
+     * Set default User Role.
+     *
+     * @param string $role The role name to associate.
+     */
+    public function setRole($role)
+    {
+        try {
+            if (is_string($role)) {
+                $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+            }
+
+            if ($role) {
+                $this->role()->associate($role);
+                $this->save();
+            }
+
+            return $this;
+        } catch (\Throwable $th) {
+            return $this->roles()->attach($role);
+        }
+    }
+
+    /**
+     * Unassign a role from the user.
+     *
+     * @param string $role
+     * @param int    $userId
+     */
+    public function unassignRole($role)
+    {
+        try {
+            if (is_string($role)) {
+                $role = Porteiro::model('Role')->where('name', '=', $name)->first();
+            }
+    
+            $this->roles()->detach($role);
+        } catch (\Throwable $th) {
+            return $this->roles()->detach($role);
+        }
+    }
+    public function removeRole($role)
+    {
+        return $this->unassignRole($role);
+    }
+
+    /**
+     * Unassign all roles from the user.
+     *
+     */
+    public function unassignAllRoles()
+    {
+        $this->roles()->detach();
+    }
     public function hasPermission($name)
     {
         $this->loadPermissionsRelations();

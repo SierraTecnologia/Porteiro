@@ -2,7 +2,6 @@
 
 namespace Porteiro\Http\Controllers\User;
 
-use Hash;
 use Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -10,6 +9,7 @@ use Porteiro\Services\UserService;
 use App\Http\Requests\PasswordUpdateRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Porteiro\Http\Controllers\User\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {

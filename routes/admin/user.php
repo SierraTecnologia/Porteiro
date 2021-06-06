@@ -5,7 +5,6 @@
                 
 Route::resource('users', 'UserController');
 Route::resource('permissions', 'PermissionController');
-Route::resource('roles', 'RoleController');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +25,8 @@ Route::get('/users/switch-back', 'UserController@switchUserBack')->name('users.b
 | Roles
 |--------------------------------------------------------------------------
 */
-Route::resource('roles', 'RoleController', ['except' => ['show']]);
+Route::resource('roles', 'RoleController')->parameters([
+    'roles' => 'id'
+]);
 Route::post('roles/search', 'RoleController@search');
 Route::get('roles/search', 'RoleController@index')->name('roles.search');

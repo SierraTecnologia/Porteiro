@@ -18,7 +18,7 @@ class AddUserRoleRelationship extends Migration
                 $table->integer('role_id')->unsigned()->change();
                 $table->foreign('role_id')->references('id')->on('roles');
 
-                $table->boolean('admin')->default(false);
+                $table->integer('admin')->unsigned()->default(0);
                 $table->softDeletes();
             }
         );

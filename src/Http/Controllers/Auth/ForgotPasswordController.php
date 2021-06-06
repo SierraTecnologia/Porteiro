@@ -19,4 +19,12 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+
+    public function showLinkRequestForm() {
+        if (View::exists('auth.passwords.email')) {
+            return view('auth.passwords.email');
+        }
+        return view('porteiro::auth.passwords.email');
+    }
 }

@@ -3,105 +3,120 @@
 namespace Porteiro\Http\Controllers\Admin;
 
 use Porteiro\Models\Role;
-use Facilitador\Services\FacilitadorService;
+// use Facilitador\Services\FacilitadorService;
 use Illuminate\Http\Request;
-use Support\Http\Controllers\RiCa\Manager\RepositoryController;
-use Support\Services\ModelService;
-use Support\Services\RepositoryService;
+// use Support\Http\Controllers\RiCa\Manager\RepositoryController;
+// use Support\Services\ModelService;
+// use Support\Services\RepositoryService;
+use Pedreiro\CrudController;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    use CrudController;
+
+    public function __construct(Role $model)
     {
-        $facilitadorService = app(FacilitadorService::class);
-        $repositoryService = new RepositoryService(
-            new ModelService(
-                Role::class
-            )
-        );
-        $baseControl = new RepositoryController($facilitadorService, $repositoryService);
+        $this->model = $model;
 
-        return $baseControl->index($request);
+        // Configure Controller
+        $this->withPagination = 15;
 
-        // $roles = Role::all();
-
-        // return view('admin.roles.index', compact('roles'));
+        // Call Parent
+        parent::__construct();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('porteiro::admin.roles.create');
-    }
+    // @todo Antigo removi, agora usa Pedreiro
+    // /**
+    //  * Display a listing of the resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function index(Request $request)
+    // {
+    //     $facilitadorService = app(FacilitadorService::class);
+    //     $repositoryService = new RepositoryService(
+    //         new ModelService(
+    //             Role::class
+    //         )
+    //     );
+    //     $baseControl = new RepositoryController($facilitadorService, $repositoryService);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        Role::create(['name' => $request->name]);
+    //     return $baseControl->index($request);
 
-        return redirect('roles');
-    }
+    //     // $roles = Role::all();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $id)
-    {
-        $role = Role::findOrFail($id);
+    //     // return view('porteiro::admin.roles.index', compact('roles'));
+    // }
 
-        return view('porteiro::admin.roles.edit', compact('role'));
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create(Request $request)
+    // {
+    //     return view('porteiro::admin.roles.create');
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        $role = Role::findOrFail($request->role_id);
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param \Illuminate\Http\Request $request
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(Request $request)
+    // {
+    //     Role::create(['name' => $request->name]);
 
-        $role->name = $request->name;
+    //     return redirect('roles');
+    // }
 
-        $role->update();
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param int $id
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit(Request $request, $id)
+    // {
+    //     $role = Role::findOrFail($id);
 
-        return redirect('roles');
-    }
+    //     return view('porteiro::admin.roles.edit', compact('role'));
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $role = Role::findOrFail($id);
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param \Illuminate\Http\Request $request
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request)
+    // {
+    //     $role = Role::findOrFail($request->role_id);
 
-        $role->delete();
+    //     $role->name = $request->name;
 
-        return redirect('roles');
-    }
+    //     $role->update();
+
+    //     return redirect('roles');
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param int $id
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy(Request $request, $id)
+    // {
+    //     $role = Role::findOrFail($id);
+
+    //     $role->delete();
+
+    //     return redirect('roles');
+    // }
 }

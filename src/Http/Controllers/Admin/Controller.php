@@ -2,7 +2,7 @@
 
 namespace Porteiro\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller as BaseController;
+use Porteiro\Http\Controllers\Controller as BaseController;
 
 class Controller extends BaseController
 {

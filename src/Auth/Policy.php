@@ -4,7 +4,7 @@ namespace Porteiro\Auth;
 
 use Config;
 use Request;
-use SupportURL;
+use PedreiroURL;
 use App\Models\User;
 
 /**
@@ -43,7 +43,7 @@ class Policy
         if (preg_match($pattern, $controller, $matches)) {
             $controller = $matches[1];
         } else {
-            $controller = SupportURL::slugController($controller);
+            $controller = PedreiroURL::slugController($controller);
         }
 
         // Allow all admins to upload to redactor

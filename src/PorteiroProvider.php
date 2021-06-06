@@ -12,6 +12,9 @@ use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;
 use Porteiro\Http\Middleware\RiCa as RiCaMiddleware;
 use Porteiro\Http\Middleware\Admin as AdminMiddleware;
+use Porteiro\Http\Middleware\Master as MasterMiddleware;
+use Porteiro\Http\Middleware\Painel as PainelMiddleware;
+use Porteiro\Http\Middleware\Client as ClientMiddleware;
 use Porteiro\Http\Middleware\User as UserMiddleware;
 use Porteiro\Http\Middleware\Subscription as SubscriptionMiddleware;
 use Porteiro\Services\PorteiroService;
@@ -29,9 +32,7 @@ class PorteiroProvider extends ServiceProvider
 
     public static $providers = [
 
-        \Pedreiro\PedreiroProviderService::class,
-        // HAML
-        \Bkwld\LaravelHaml\ServiceProvider::class,
+        \Pedreiro\PedreiroServiceProvider::class,
 
         
     ];
@@ -40,24 +41,48 @@ class PorteiroProvider extends ServiceProvider
      */
     public static $menuItens = [
         [
-            'text'        => 'Usuários',
-            'route'       => 'admin.porteiro.users.index',
-            'icon'        => 'laptop',
-            'icon_color'  => 'red',
-            'label_color' => 'success',
-            // 'section'     => 'painel',
-            // 'level'       => 2,
-            // 'feature' => 'commerce',
+            'text' => 'Acessos',
+            'icon' => 'fas fa-fw fa-search',
+            'icon_color' => "blue",
+            'label_color' => "success",
+            'section'   => 'admin',
+            'order' => 2020,
+            'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
         ],
-        [
-            'text'        => 'Permissões',
-            'route'       => 'admin.porteiro.permissions.index',
-            'icon'        => 'laptop',
-            'icon_color'  => 'red',
-            'label_color' => 'success',
-            // 'section'     => 'painel',
-            // 'level'       => 2,
-            // 'feature' => 'commerce',
+        'Acessos' => [
+            [
+                'text'        => 'Usuários',
+                'route'       => 'admin.porteiro.users.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                'order' => 2022,
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
+            [
+                'text'        => 'Grupos',
+                'route'       => 'admin.porteiro.roles.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                'order' => 2024,
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
+            [
+                'text'        => 'Permissões',
+                'route'       => 'admin.porteiro.permissions.index',
+                'icon'        => 'laptop',
+                'icon_color'  => 'red',
+                'label_color' => 'success',
+                'section'     => 'admin',
+                'order' => 2026,
+                // 'level'       => 2,
+                // 'feature' => 'commerce',
+            ],
         ],
     ];
     // /**
@@ -108,6 +133,27 @@ class PorteiroProvider extends ServiceProvider
             ]
         );
         $this->app['router']->middlewareGroup(
+            'client',
+            [
+                'web',
+                ClientMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'painel',
+            [
+                'web',
+                PainelMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
+            'master',
+            [
+                'web',
+                MasterMiddleware::class
+            ]
+        );
+        $this->app['router']->middlewareGroup(
             'admin',
             [
                 'web',
@@ -116,6 +162,14 @@ class PorteiroProvider extends ServiceProvider
         );
         $this->app['router']->middlewareGroup(
             'rica',
+            [
+                'web',
+                RiCaMiddleware::class
+            ]
+        );
+        // Repete por causa de conflitos
+        $this->app['router']->middlewareGroup(
+            'root',
             [
                 'web',
                 RiCaMiddleware::class
@@ -176,7 +230,6 @@ class PorteiroProvider extends ServiceProvider
             ],
             'public'
         );
-
 
         // COloquei no register pq nao tava reconhecendo as rotas para o adminlte
         $this->app->booted(function () {
@@ -243,13 +296,6 @@ class PorteiroProvider extends ServiceProvider
                     ->withErrors([ 'error message' => __('pedreiro::login.error.login_first')]);
             }
         );
-
-        // Build the Elements collection
-        $this->app->singleton(
-            'facilitador.elements', function ($app) {
-                return with(new \Pedreiro\Collections\Elements)->setModel(\Support\Models\Element::class);
-            }
-        );
     }
     
 
@@ -263,7 +309,6 @@ class PorteiroProvider extends ServiceProvider
         return [
             'porteiro',
             'facilitador.acl_fail',
-            'facilitador.elements',
             'facilitador.user',
         ];
     }

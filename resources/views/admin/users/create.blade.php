@@ -7,7 +7,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> {!! trans('words.home') !!}</a></li>
-            <li><a href="{!! route('admin.porteiro.users.index') !!}"><i class="fa fa-key"></i> {!! trans('words.users') !!}</a></li>
+            <li><a href="{!! route('master.porteiro.users.index') !!}"><i class="fa fa-key"></i> {!! trans('words.users') !!}</a></li>
             <li class="active">{!! trans('words.addNew') !!}</li>
         </ol>
     </section>
@@ -19,7 +19,7 @@
                 <div class="row">
                     {!! Form::open(['route' => 'users.store']) !!}
 
-                        @include('porteiro::admin.users.fields')
+                        @include('porteiro::master.users.fields')
 
                     {!! Form::close() !!}
                 </div>

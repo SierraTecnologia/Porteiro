@@ -48,18 +48,17 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        // dd('adminrica', $this->auth);
+        if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
-            $admin = (int) $this->auth->user()->admin;
-
-            if ($admin<1) {
+            if (!$this->auth->user()->isAdmin()) {
                 Log::info('Usuario sem permissão para admin, redirecionando! ');
-                return $this->response->redirectTo('/');
+                return $this->response->redirectTo($this->auth->user()->homeUrl());
             }
 
             return $next($request);
         }
         Log::info('Sem permissão para admin, redirecionando! ');
+        // return response()->view('errors.401', [], 401);
         return $this->response->redirectTo('/');
     }
 }

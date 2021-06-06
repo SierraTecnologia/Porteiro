@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Templeiro::loadRelativeView('layouts.master'))
 
 @section('content')
 <div class="container">

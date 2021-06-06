@@ -2,8 +2,7 @@
 
 namespace Porteiro\Http\Controllers\Admin;
 
-use App\Http\ControllersController;
-use App\Models\Permission;
+use Porteiro\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -25,7 +24,7 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         return view('porteiro::admin.permissions.create');
     }

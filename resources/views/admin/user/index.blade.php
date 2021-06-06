@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('layouts.app')
 
 {{-- Web site Title --}}
 @section('title') {!! trans("admin/users.users") !!} :: @parent

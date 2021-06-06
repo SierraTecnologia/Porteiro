@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Porteiro\Http\Controllers\User\Controller;
 use Porteiro\Services\UserService;
+use Templeiro;
 
 class SettingsController extends Controller
 {
@@ -27,7 +28,7 @@ class SettingsController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return view('user.settings')
+            return view(Templeiro::loadRelativeView('user.settings'))
             ->with('user', $user);
         }
 
