@@ -54,13 +54,13 @@ class Subscription
         if ($this->auth->check()) {
             // dd($this->auth->user()->userMeta()->first());
             if (!$userMeta = $this->auth->user()->userMeta()->first()) {
-                Log::info('Sem permissão para subscription, redirecionando! ');
+                Log::debug('Sem permissão para subscription, redirecionando! ');
                 return $this->response->redirectTo('/subscription');
             }
             
             return $next($request);
         }
-        return $this->response->redirectTo('/');
+        return $this->response->redirectTo(route('login'));
     }
 
 }

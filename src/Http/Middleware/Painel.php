@@ -51,10 +51,10 @@ class Painel extends Middleware
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.env') !== 'production') return $next($request); // @debug @todo
+        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if (!$this->auth->check()) {
-            Log::info('Sem permissão para painel, redirecionando! ');
-            return $this->response->redirectTo('/');
+            Log::debug('Sem permissão para painel, redirecionando! ');
+            return $this->response->redirectTo(route('login'));
         }
         // return response()->view('errors.401', [], 401);
         // return $this->response->redirectTo($this->auth->user()->homeUrl());

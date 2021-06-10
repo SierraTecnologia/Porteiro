@@ -49,18 +49,18 @@ class RiCa
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.env') !== 'production') return $next($request); // @debug @todo
+        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
         if ($this->auth->check()) {
             $admin = (int) $this->auth->user()->admin;
 
             if (!$this->auth->user()->isRoot()) {
-                Log::info('Usuario sem permissão para rica(root), redirecionando! ');
+                Log::debug('Usuario sem permissão para rica(root), redirecionando! ');
                 return $this->response->redirectTo($this->auth->user()->homeUrl());
             }
 
             return $next($request);
         }
-        Log::info('Sem permissão para rica, redirecionando! ');
-        return $this->response->redirectTo('/');
+        Log::debug('Sem permissão para rica, redirecionando! ');
+        return $this->response->redirectTo(route('login'));
     }
 }
