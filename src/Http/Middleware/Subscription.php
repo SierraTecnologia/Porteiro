@@ -43,24 +43,25 @@ class Subscription
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  ...$guards
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
         // if (config('app.env') !== 'production') return $next($request); // @debug @todo
         
         if ($this->auth->check()) {
             // dd($this->auth->user()->userMeta()->first());
             if (!$userMeta = $this->auth->user()->userMeta()->first()) {
-                Log::info('Sem permissão para subscription, redirecionando! ');
+                Log::debug('Sem permissão para subscription, redirecionando! ');
                 return $this->response->redirectTo('/subscription');
             }
             
             return $next($request);
         }
-        return $this->response->redirectTo('/');
+        return $this->response->redirectTo(route('login'));
     }
 
 }

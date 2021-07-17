@@ -18,11 +18,15 @@
         <div class="box panel card box-primary panel-primary card-primary">
             <div class="btn-group">
                 <h1 class="float-right">
+                @if (Route::has('master.porteiro.users.create'))
                     <a class="btn btn-primary float-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('master.porteiro.users.create') !!}">{!! trans('words.addNew') !!}</a>
+                @else
+                    <a class="btn btn-primary float-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.porteiro.users.create') !!}">{!! trans('words.addNew') !!}</a>
+                @endif
                 </h1>
             </div>
             <div class="box-body panel-body card-body">
-                    @include('porteiro::master.users.table')
+                    @include('porteiro::admin.users.table')
             </div>
         </div>
     </div>
