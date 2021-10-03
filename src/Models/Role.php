@@ -59,7 +59,7 @@ class Role extends Model
             ->union($this->hasMany($userModel))->getQuery();
     }
 
-    public function permissions()
+    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Porteiro::modelClass('Permission'));
     }
@@ -90,8 +90,10 @@ class Role extends Model
 
     /**
      * @inheritdoc
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function newQuery(): RoleBuilder
+    public function newQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return parent::newQuery();
     }

@@ -9,6 +9,9 @@ use Porteiro\Activation\ActivationRepository;
 trait ActivationTrait
 {
 
+    /**
+     * @return null|true
+     */
     public function initiateEmailActivation(User $user)
     {
 
@@ -24,7 +27,7 @@ trait ActivationTrait
 
     }
 
-    protected function validateEmail(User $user)
+    protected function validateEmail(User $user): bool
     {
 
         // Check does email posses valid format, cause if it's social account without

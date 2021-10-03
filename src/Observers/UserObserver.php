@@ -20,10 +20,11 @@ class UserObserver implements ShouldQueue
     /**
      * Handle the user "created" event.
      *
-     * @param  \App\Models\User $user
-     * @return void
+     * @param \App\Models\User $user
+     *
+     * @return true
      */
-    public function created(User $user)
+    public function created(User $user): bool
     {
         $company = $user->getCompany();
         $token = '';
