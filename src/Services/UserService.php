@@ -96,9 +96,11 @@ class UserService
      *
      * @param int $id
      *
-     * @return Collection
+     * @return array
+     *
+     * @psalm-return list<mixed>
      */
-    public function findByRoleID($id)
+    public function findByRoleID($id): array
     {
         $usersWithRepo = [];
         $users = $this->model->all();
@@ -276,8 +278,10 @@ class UserService
      *
      * @param string $roleName
      * @param int    $userId
+     *
+     * @return void
      */
-    public function assignRole($roleName, $userId)
+    public function assignRole($roleName, $userId): void
     {
         $role = $this->role->findByName($roleName);
         $user = $this->model->find($userId);
@@ -290,8 +294,10 @@ class UserService
      *
      * @param string $roleName
      * @param int    $userId
+     *
+     * @return void
      */
-    public function unassignRole($roleName, $userId)
+    public function unassignRole($roleName, $userId): void
     {
         $role = $this->role->findByName($roleName);
         $user = $this->model->find($userId);
@@ -304,8 +310,10 @@ class UserService
      *
      * @param string $roleName
      * @param int    $userId
+     *
+     * @return void
      */
-    public function unassignAllRoles($userId)
+    public function unassignAllRoles($userId): void
     {
         $user = $this->model->find($userId);
         $user->roles()->detach();

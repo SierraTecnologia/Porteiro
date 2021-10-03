@@ -10,6 +10,9 @@ use Carbon\Carbon;
 class ActivationRepository
 {
 
+    /**
+     * @return null|true
+     */
     public function createTokenAndSendEmail(User $user)
     {
         // Limit number of activation attempts to 3 in 24 hours window
@@ -43,7 +46,7 @@ class ActivationRepository
 
     }
 
-    public function deleteExpiredActivations()
+    public function deleteExpiredActivations(): void
     {
 
         Activation::where('created_at', '<=', Carbon::now()->subHours(72))->delete();

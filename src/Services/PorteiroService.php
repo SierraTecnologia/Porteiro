@@ -45,7 +45,10 @@ class PorteiroService
         return app($this->modelClass($name));
     }
 
-    public function modelClass($name)
+    /**
+     * @return class-string
+     */
+    public function modelClass($name): string
     {
         $name = Str::studly($name);
         $classes = $this->models[$name];

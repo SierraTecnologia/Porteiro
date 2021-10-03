@@ -111,8 +111,10 @@ class PorteiroProvider extends ServiceProvider
     }
     /**
      * Bootstrap the application events.
+     *
+     * @return void
      */
-    public function boot(Router $router, Dispatcher $events)
+    public function boot(Router $router, Dispatcher $events): void
     {
         $this->publishes(
             [
