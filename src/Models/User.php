@@ -406,7 +406,7 @@ class User extends Base implements
      *
      * @return void
      */
-    public function onCreating()
+    public function onCreating(): void
     {
         // Send out email
         if (Request::has('_send_email')) {
