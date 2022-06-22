@@ -45,11 +45,4 @@ class ActivationRepository
 
 
     }
-
-    public function deleteExpiredActivations(): void
-    {
-
-        Activation::where('created_at', '<=', Carbon::now()->subHours(72))->delete();
-
-    }
 }

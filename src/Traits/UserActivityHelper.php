@@ -17,7 +17,7 @@ trait UserActivityHelper
         return $this->activitiesByCausers($causers);
     }
 
-    public function interestedCausers()
+    public function interestedCausers(): array
     {
         $followings = [];
         if (!is_null($this->followings)) {

@@ -27,7 +27,10 @@ class SocialController extends SitecController
         return Socialite::driver($provider)->redirect();
     }
 
-    public function getSocialHandle($provider)
+    /**
+     * @return \Illuminate\Http\RedirectResponse|null
+     */
+    public function getSocialHandle($provider): ?self
     {
         if (Input::get('denied') != '') {
             return redirect()->to('login')
@@ -37,7 +40,6 @@ class SocialController extends SitecController
 
         $user = Socialite::driver($provider)->user();
 
-        $socialUser = null;
 
         //Check is this email present
         $userCheck = User::where('email', '=', $user->email)->first();

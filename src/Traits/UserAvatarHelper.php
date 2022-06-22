@@ -7,7 +7,7 @@ use Image;
 
 trait UserAvatarHelper
 {
-    public function cacheAvatar()
+    public function cacheAvatar(): void
     {
         //Download Image
         $guzzle = new Client();
@@ -33,7 +33,12 @@ trait UserAvatarHelper
         $this->save();
     }
 
-    public function updateAvatar($file)
+    /**
+     * @return array
+     *
+     * @psalm-return array{avatar: mixed}
+     */
+    public function updateAvatar($file): array
     {
         $upload_status = app('Muleta\Modules\Features\Handler\ImageUploadHandler')->uploadAvatar($file, $this);
         $this->avatar = $upload_status['filename'];

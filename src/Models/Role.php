@@ -24,64 +24,27 @@ class Role extends Model
     public static $ADMIN = 2;
 
     /**
-     * São consumidores dos Clientes dos Usuários do Payment
-     *
      * @var array
      */
-    public static $CUSTOMER = 3;
-
-    /**
-     * Usuários do Organização
-     *
-     * @var array
-     */
-    public static $USER = 4;
-
-    /**
-     * São clientes dos Usuários do Payment.
-     *
-     * @var array
-     */
-    public static $CLIENT = 5;
-
     protected $guarded = [];
 
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: 'name'}
+     */
     protected $fillable = [
         'name'
     ];
-
-    public function users()
-    {
-        $userModel = Porteiro::modelClass('User');
-
-        return $this->belongsToMany($userModel, 'role_user')
-            ->select(app($userModel)->getTable().'.*')
-            ->union($this->hasMany($userModel))->getQuery();
-    }
-
-    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Porteiro::modelClass('Permission'));
-    }
 
 
     /**
      * @todo repetida pq da pau findByName
      */
-
-    /**
-     * Find Role by name
-     *
-     * @param string $name
-     *
-     * @return \Illuminate\Support\Collection|null|static|Role
-     */
-    public function findByName($name)
-    {
-        return $this->where('name', $name)->firstOrFail();
-    }
     /**
      * @inheritdoc
+     *
+     * @return RoleBuilder
      */
     public function newEloquentBuilder($query): RoleBuilder
     {

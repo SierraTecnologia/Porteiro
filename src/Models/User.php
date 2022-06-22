@@ -21,7 +21,6 @@ use Mail;
 use Population\Manipule\Builders\UserBuilder;
 use Porteiro;
 use Porteiro\Auth\AuthInterface;
-
 use Porteiro\Contracts\User as UserContract;
 use Porteiro\Notifications\ResetPassword;
 use Porteiro\Traits\PorteiroUser;
@@ -90,6 +89,11 @@ class User extends Base implements
      */
     protected $guarded = ['id'];
 
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: 'locale'}
+     */
     public $additional_attributes = ['locale'];
 
     /**
@@ -140,6 +144,11 @@ class User extends Base implements
     //     'role',
     // ];
 
+    /**
+     * @var string[][]
+     *
+     * @psalm-var array{name: array{type: 'string', analyzer: 'standard'}, cpf: array{type: 'string', analyzer: 'standard'}, email: array{type: 'string', analyzer: 'standard'}}
+     */
     protected $mappingProperties = array(
         /**
          * User Info
@@ -213,8 +222,10 @@ class User extends Base implements
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Photo>
      */
-    public function photos()
+    public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Photo::class, 'created_by_user_id');
     }
@@ -222,8 +233,12 @@ class User extends Base implements
 
     /**
      * Mostra o tipo de usuário para o cliente
+     *
+     * @return string
+     *
+     * @psalm-return 'Admin'|'Business'
      */
-    public function getUserType()
+    public function getUserType(): string
     {
         if ($this->isAdmin()) {
             return 'Admin';
@@ -236,13 +251,13 @@ class User extends Base implements
         return $this->name;
     }
 
-    public function firstName()
+    public function firstName(): string
     {
         $name = explode(' ', $this->name);
         return $name[0];
     }
 
-    public function lastName()
+    public function lastName(): string
     {
         $name = explode(' ', $this->name);
         return $name[strlen($name)-1];
@@ -256,8 +271,10 @@ class User extends Base implements
      * Retorna 2 Caso seja Admin
      * Retorna 1 Caso seja Inscrito
      * Retorna 0 Caso não seja Inscrito no Business
+     *
+     * @return int
      */
-    public function getLevelForAcessInBusiness()
+    public function getLevelForAcessInBusiness(): int
     {
         if ($this->isRoot()) {
             return 3;
@@ -272,7 +289,7 @@ class User extends Base implements
 
         return 0;
     }
-    public function hasAccessTo($section)
+    public function hasAccessTo($section): bool
     {
         if (($section=='rica' || $section=='root') && !$this->isRoot()) {
             return false;
@@ -286,22 +303,25 @@ class User extends Base implements
 
         return true;
     }
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->admin == 2;
     }
     /**
      * Verifica se é admin para exibir informações dos outros usuários ou não
+     *
      * @todo add essa validação ($user->roles->first()->name === 'admin' || $user->id == 1)
+     *
+     * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         if ($this->isRoot() || $this->email == 'ricardo@ricasolucoes.com.br') {
             return true;
         }
         return $this->admin >= 1 || $this->role_id === Role::$GOOD || $this->role_id === Role::$ADMIN; //@todo
     }
-    public function isMaster()
+    public function isMaster(): bool
     {
         if ($this->isAdmin() || $this->email == 'ricardo@ricasolucoes.com.br') {
             return true;
@@ -311,13 +331,15 @@ class User extends Base implements
 
     /**
      * @todo
+     *
+     * @return false
      */
-    public function isClient()
+    public function isClient(): bool
     {
         return false;
     }
 
-    public function homeUrl()
+    public function homeUrl(): string
     {
         // @todo Criar Permissoes Corretamente
         // if ($this->isAdmin()) {
@@ -364,10 +386,11 @@ class User extends Base implements
     /**
      * Orders instances of this model in the admin
      *
-     * @param  Illuminate\Database\Query\Builder $query
-     * @return void
+     * @param Builder $query
+     *
+     * @return Builder
      */
-    public function scopeOrdered(Builder $query, string $direction = 'asc')
+    public function scopeOrdered(Builder $query, string $direction = 'asc'): Builder
     {
         $query->orderBy('last_name', $direction)->orderBy('first_name', $direction);
     }
@@ -375,7 +398,9 @@ class User extends Base implements
     /**
      * Tweak some validation rules
      *
-     * @param Illuminate\Validation\Validator $validation
+     * @param \Illuminate\Validation\Validator $validation
+     *
+     * @return null|true
      */
     public function onValidating($validation)
     {
@@ -435,7 +460,7 @@ class User extends Base implements
      *
      * @return void
      */
-    public function onUpdating()
+    public function onUpdating(): void
     {
         if (Request::has('_send_email')) {
             $this->sendUpdateEmail();
@@ -447,7 +472,7 @@ class User extends Base implements
      *
      * @return void
      */
-    public function onSaving()
+    public function onSaving(): void
     {
         // @todo Ver como consertar esse erro;
         // // If the password is changing, hash it
@@ -632,8 +657,10 @@ class User extends Base implements
 
     /**
      * Return the gravatar URL for the admin
+     *
+     * @return string
      */
-    public function getGravatarAttribute()
+    public function getGravatarAttribute(): string
     {
         return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email)));
     }
@@ -646,12 +673,12 @@ class User extends Base implements
         return $this->getGravatarAttribute(); //'https://picsum.photos/300/300';
     }
 
-    public function adminlte_desc()
+    public function adminlte_desc(): string
     {
         return 'That\'s a nice guy';
     }
 
-    public function adminlte_profile_url()
+    public function adminlte_profile_url(): string
     {
         return 'profile/username';
     }
@@ -733,10 +760,13 @@ class User extends Base implements
     /**
      * Get the list of all permissions
      *
-     * @param  Admin|null $admin
-     * @return array
+     * @param Admin|null $admin
+     *
+     * @return \stdClass[]
+     *
+     * @psalm-return list<\stdClass>
      */
-    public static function getPermissionOptions($admin = null)
+    public static function getPermissionOptions($admin = null): array
     {
         // Get all the app controllers
         $controllers = array_map(
@@ -875,27 +905,29 @@ class User extends Base implements
 
     /**
      * Sets Attributes
+     *
+     * @return void
      */
-    public function setPasswordAttribute($password)
+    public function setPasswordAttribute($password): void
     {
         $this->attributes['password'] = \Hash::make($password);
     }
-    public function setCreatedAtAttribute($value)
+    public function setCreatedAtAttribute($value): void
     {
         $this->attributes['created_at'] = Carbon::parse($value)->format('Y-m-d H:i:s');
     }
 
-    public function setSettingsAttribute($value)
+    public function setSettingsAttribute($value): void
     {
         $this->attributes['settings'] = $value->toJson();
     }
 
-    public function getSettingsAttribute($value)
+    public function getSettingsAttribute($value): \Illuminate\Support\Collection
     {
         return collect(json_decode($value));
     }
 
-    public function setLocaleAttribute($value)
+    public function setLocaleAttribute($value): void
     {
         if ($this->settings) {
             $this->settings = $this->settings->merge(['locale' => $value]);
@@ -916,6 +948,10 @@ class User extends Base implements
 
     /**
      * Return default User Role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<empty>
      */
     public function role()
     {
@@ -924,16 +960,22 @@ class User extends Base implements
 
     /**
      * Return alternative User Roles.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<empty>
      */
-    public function roles()
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Porteiro::modelClass('Role'), 'role_user', 'user_id', 'role_id');
     }
 
     /**
      * Return all User Roles, merging the default and alternative roles.
+     *
+     * @return \Illuminate\Support\Collection
      */
-    public function roles_all()
+    public function roles_all(): self
     {
         $this->loadRolesRelations();
 
@@ -1019,11 +1061,15 @@ class User extends Base implements
     /**
      * Unassign all roles from the user.
      *
+     * @return void
      */
-    public function unassignAllRoles()
+    public function unassignAllRoles(): void
     {
         $this->roles()->detach();
     }
+    /**
+     * @return bool
+     */
     public function hasPermission($name)
     {
         $this->loadPermissionsRelations();
@@ -1035,6 +1081,9 @@ class User extends Base implements
         return in_array($name, $_permissions);
     }
 
+    /**
+     * @return true
+     */
     public function hasPermissionOrFail($name)
     {
         if (!$this->hasPermission($name)) {
@@ -1044,6 +1093,9 @@ class User extends Base implements
         return true;
     }
 
+    /**
+     * @return null|true
+     */
     public function hasPermissionOrAbort($name, $statusCode = 403)
     {
         if (!$this->hasPermission($name)) {
@@ -1053,7 +1105,7 @@ class User extends Base implements
         return true;
     }
 
-    private function loadRolesRelations()
+    private function loadRolesRelations(): void
     {
         if (!$this->relationLoaded('role')) {
             $this->load('role');
@@ -1064,7 +1116,7 @@ class User extends Base implements
         }
     }
 
-    private function loadPermissionsRelations()
+    private function loadPermissionsRelations(): void
     {
         $this->loadRolesRelations();
 
@@ -1084,16 +1136,22 @@ class User extends Base implements
     /**
      * User UserMeta
      *
-     * @return Relationship
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\UserMeta>
      */
-    public function meta()
+    public function meta(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(\App\Models\UserMeta::class);
     }
     /**
      * Get all of the userMeta for the business.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<\Illuminate\Database\Eloquent\Model>
      */
-    public function userMeta()
+    public function userMeta(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Models\UserMeta');
     }

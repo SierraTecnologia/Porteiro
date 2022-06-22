@@ -11,10 +11,6 @@ abstract class SitecController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected $routeBase;
-
-    protected $repository;
-
     public function __construct()
     {
         $this->routeBase = config('cms.backend-route-prefix', 'cms');

@@ -32,7 +32,7 @@ class AddRolesAndPermissions extends Migration
                 $table->nullableTimestamps();
             });
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
 
         try {
@@ -49,7 +49,7 @@ class AddRolesAndPermissions extends Migration
                 $table->primary(['user_id', 'role_id']);
             });
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
 
         try {
@@ -62,7 +62,7 @@ class AddRolesAndPermissions extends Migration
                 $table->nullableTimestamps();
             });
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
 
         try {
@@ -79,7 +79,7 @@ class AddRolesAndPermissions extends Migration
                 $table->primary(['permission_id', 'role_id']);
             });
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
 
         try {
@@ -107,7 +107,7 @@ class AddRolesAndPermissions extends Migration
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
 
         try {
@@ -158,7 +158,7 @@ class AddRolesAndPermissions extends Migration
                 ]);
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            \Log::warning($th->getMessage());
         }
     }
 
@@ -169,9 +169,9 @@ class AddRolesAndPermissions extends Migration
      */
     public function down()
     {
-        Schema::drop('permission_role');
-        Schema::drop('permissions');
-        Schema::drop('role_user');
-        Schema::drop('roles');
+        Schema::dropIfExists('permission_role');
+        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('roles');
     }
 }
