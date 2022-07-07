@@ -49,7 +49,7 @@ class PorteiroProvider extends ServiceProvider
 
         \Pedreiro\PedreiroServiceProvider::class,
 
-        
+
     ];
 
 
@@ -58,7 +58,7 @@ class PorteiroProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+
         // Register configs, migrations, etc
         $this->registerDirectories();
 
@@ -135,7 +135,7 @@ class PorteiroProvider extends ServiceProvider
             'facilitador.user', function ($app) {
                 \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador');
                 // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador'));
-                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei 
+                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei
             }
         );
 
@@ -148,7 +148,7 @@ class PorteiroProvider extends ServiceProvider
             }
         );
     }
-    
+
 
     /**
      * Get the services provided by the provider.
@@ -188,6 +188,8 @@ class PorteiroProvider extends ServiceProvider
 
         $this->loadViews();
         $this->loadTranslations();
+        // Register Migrations
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
     }
 
     private function loadViews()
@@ -202,7 +204,7 @@ class PorteiroProvider extends ServiceProvider
             ['views',  'sitec', 'sitec-views']
         );
     }
-    
+
     private function loadTranslations()
     {
         // Publish lanaguage files

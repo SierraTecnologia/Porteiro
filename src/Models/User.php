@@ -5,6 +5,7 @@ namespace Porteiro\Models;
 // Deps
 use Muleta\Library\Utils\Text;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use Config;
 use HTML;
 use Illuminate\Support\Facades\Hash;
@@ -229,7 +230,7 @@ class User extends Base implements
     {
         return $this->hasMany(Photo::class, 'created_by_user_id');
     }
-    
+
 
     /**
      * Mostra o tipo de usuário para o cliente
@@ -363,7 +364,7 @@ class User extends Base implements
         }
 
         return route('painel.porteiro.dashboard');
-        
+
         /**
          * @todo
          * redirect('dashboard');
@@ -977,8 +978,13 @@ class User extends Base implements
      */
     public function roles_all(): self
     {
+        // @todo problema quando nao tem roles
+        // $hasRoles = Schema::hasTable('roles');
+        // if (!$hasRoles) {
+        //     return collect([]);
+        // }
+        
         $this->loadRolesRelations();
-
         return collect([$this->role])->merge($this->roles);
     }
 
@@ -991,6 +997,10 @@ class User extends Base implements
      */
     public function hasRole($name)
     {
+        $hasRoles = Schema::hasTable('roles');
+        if (!$hasRoles) {
+            return false;
+        }
         $roles = $this->roles_all()->pluck('name')->toArray();
 
         foreach ((is_array($name) ? $name : [$name]) as $role) {
@@ -1047,7 +1057,7 @@ class User extends Base implements
             if (is_string($role)) {
                 $role = Porteiro::model('Role')->where('name', '=', $name)->first();
             }
-    
+
             $this->roles()->detach($role);
         } catch (\Throwable $th) {
             return $this->roles()->detach($role);
@@ -1118,6 +1128,11 @@ class User extends Base implements
 
     private function loadPermissionsRelations(): void
     {
+
+        $hasRoles = Schema::hasTable('roles');
+        if (!$hasRoles) {
+            return;
+        }
         $this->loadRolesRelations();
 
         if ($this->role && !$this->role->relationLoaded('permissions')) {
