@@ -127,6 +127,7 @@ class User extends Base implements
         'email',
         'token',
         'token_public',
+        'admin'
     ];
 
     /**
@@ -983,7 +984,7 @@ class User extends Base implements
         // if (!$hasRoles) {
         //     return collect([]);
         // }
-        
+
         $this->loadRolesRelations();
         return collect([$this->role])->merge($this->roles);
     }
