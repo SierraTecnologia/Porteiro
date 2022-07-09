@@ -54,6 +54,40 @@ class PorteiroProvider extends ServiceProvider
 
 
     /**
+     * Rotas do Menu
+     */
+    public static $menuItens = [
+        // [
+        //     'text'        => 'Meus Pontos',
+        //     'route'       => 'profile.writelabel.home',
+        //     'icon'        => 'fas fa-fw fa-gamepad',
+        //     'icon_color'  => 'blue',
+        //     'label_color' => 'success',
+        //     'section' => "profile",
+        //     // 'access' => \Porteiro\Models\Role::$ADMIN
+        // ],
+        // [
+        //     'text' => 'Gamificação',
+        //     'icon' => 'fas fa-fw fa-search',
+        //     'icon_color' => "blue",
+        //     'label_color' => "success",
+        //     'section'   => 'admin',
+        //     'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
+        // ],
+        // 'Gamificação' => [
+        //     [
+        //         'text'        => 'Tipos de Pontos',
+        //         'route'       => 'rica.writelabel.pointTypes.index',
+        //         'icon'        => 'fas fa-fw fa-gamepad',
+        //         'icon_color'  => 'blue',
+        //         'label_color' => 'success',
+        //         'section' => "admin",
+        //         // 'access' => \Porteiro\Models\Role::$ADMIN
+        //     ],
+        // ],
+    ];
+
+    /**
      * Alias the services in the boot.
      */
     public function boot()
