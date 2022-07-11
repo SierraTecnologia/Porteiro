@@ -1,4 +1,5 @@
 <?php
+// @todo verificar dependencias
 
 namespace App\Services;
 
@@ -7,7 +8,7 @@ use Auth;
 use Session;
 use Exception;
 use App\Models\User;
-use Siravel\Models\UserMeta;
+use Porteiro\Models\UserMeta;
 use Porteiro\Models\Role;
 use Siravel\Events\UserRegisteredEmail;
 use Porteiro\Notifications\ActivateUserEmail;
