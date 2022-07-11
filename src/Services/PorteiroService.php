@@ -16,8 +16,13 @@ use Illuminate\Support\Str;
  */
 class PorteiroService
 {
-    protected $config;
 
+
+    /**
+     * @var string[][]
+     *
+     * @psalm-var array{Permission: array{0: 'App\Models\Permission', 1: 'Porteiro\Models\Permission'}, Role: array{0: 'App\Models\Role', 1: 'Porteiro\Models\Role'}, User: array{0: 'App\Models\User', 1: 'Porteiro\Models\User'}}
+     */
     protected $models = [
         'Permission'        => [
             'App\Models\Permission',
@@ -33,18 +38,6 @@ class PorteiroService
         ],
     ];
 
-    public function __construct($config = false)
-    {
-        if (!$this->config = $config) {
-            $this->config = \Illuminate\Support\Facades\Config::get('porteiro');
-        }
-    }
-
-    public function model($name)
-    {
-        return app($this->modelClass($name));
-    }
-
     /**
      * @return class-string
      */
@@ -58,13 +51,5 @@ class PorteiroService
             }
         }
         throw new \Exception('Porteiro: Classe não encontrada: '.$name);
-    }
-
-    public function canOrFail($codePermission)
-    {
-        if (!$user = Auth::user()) {
-            throw new \Exception('Porteiro: Sem permissao: '.$codePermission);
-        }
-        return $user->can($codePermission);
     }
 }

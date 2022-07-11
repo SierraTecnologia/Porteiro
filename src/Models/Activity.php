@@ -6,22 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: 'causer', 1: 'indentifier', 2: 'type', 3: 'data'}
+     */
     protected $fillable = ['causer', 'indentifier', 'type', 'data'];
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function scopeRecent($query)
-    {
-        return $query->orderBy('id', 'desc');
-    }
-
-    public function getDataAttribute($value)
-    {
-        return unserialize($value);
-    }
 }
 // public $table = "activities";
 

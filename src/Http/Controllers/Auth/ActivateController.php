@@ -21,7 +21,7 @@ class ActivateController extends Controller
     /**
      * Inform the user they must activate thier account
      *
-     * @return Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function showActivate()
     {

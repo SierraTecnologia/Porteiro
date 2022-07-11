@@ -11,8 +11,4 @@ interface User
     public function setRole($name);
 
     public function hasPermission($name);
-
-    public function hasPermissionOrFail($name);
-
-    public function hasPermissionOrAbort($name, $statusCode = 403);
 }

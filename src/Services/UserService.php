@@ -29,14 +29,6 @@ class UserService
      */
     protected $role;
 
-    public function __construct(
-        User $model,
-        Role $role
-    ) {
-        $this->model = $model;
-        $this->role = $role;
-    }
-
     /**
      * Get all users.
      *
@@ -57,38 +49,6 @@ class UserService
     public function find($id)
     {
         return $this->model->find($id);
-    }
-
-    /**
-     * Search the users.
-     *
-     * @param string $input
-     *
-     * @return mixed
-     */
-    public function search($input)
-    {
-        $query = $this->model->orderBy('created_at', 'desc');
-
-        $columns = Schema::getColumnListing('users');
-
-        foreach ($columns as $attribute) {
-            $query->orWhere($attribute, 'LIKE', '%'.$input.'%');
-        }
-
-        return $query->paginate(env('PAGINATE', 25));
-    }
-
-    /**
-     * Find a user by email.
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function findByEmail($email)
-    {
-        return $this->model->findByEmail($email);
     }
 
     /**
@@ -179,94 +139,8 @@ class UserService
             throw new Exception('We were unable to update your profile', 1);
         }
     }
-    /**
-     * Switch user login.
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function switchToUser($id)
-    {
-        try {
-            $user = $this->model->find($id);
-            Session::put('original_user', Auth::id());
-            Auth::login($user);
-
-            return true;
-        } catch (Exception $e) {
-            throw new Exception('Error logging in as user', 1);
-        }
-    }
 
 
-    /**
-     * Switch back.
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function switchUserBack()
-    {
-        try {
-            $original = Session::pull('original_user');
-            $user = $this->model->find($original);
-            Auth::login($user);
-
-            return true;
-        } catch (Exception $e) {
-            throw new Exception('Error returning to your user', 1);
-        }
-    }
-
-    /**
-     * Invite a new member.
-     *
-     * @param array $info
-     */
-    public function invite($info)
-    {
-        $password = substr(md5(rand(1111, 9999)), 0, 10);
-
-        return DB::transaction(
-            function () use ($password, $info) {
-                $user = $this->model->create(
-                    [
-                    'email' => $info['email'],
-                    'name' => $info['name'],
-                    'password' => bcrypt($password),
-                    ]
-                );
-
-                return $this->create($user, $password, $info['roles'], true);
-            }
-        );
-    }
-
-    /**
-     * Destroy the profile.
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function destroy($id)
-    {
-        try {
-            return DB::transaction(
-                function () use ($id) {
-                    $this->unassignAllRoles($id);
-
-                    $userResult = $this->model->find($id)->delete();
-
-                    return $userResult;
-                }
-            );
-        } catch (Exception $e) {
-            throw new Exception('We were unable to delete this profile', 1);
-        }
-    }
     /*
     |--------------------------------------------------------------------------
     | Roles
@@ -287,22 +161,6 @@ class UserService
         $user = $this->model->find($userId);
 
         $user->roles()->attach($role);
-    }
-
-    /**
-     * Unassign a role from the user.
-     *
-     * @param string $roleName
-     * @param int    $userId
-     *
-     * @return void
-     */
-    public function unassignRole($roleName, $userId): void
-    {
-        $role = $this->role->findByName($roleName);
-        $user = $this->model->find($userId);
-
-        $user->roles()->detach($role);
     }
 
     /**

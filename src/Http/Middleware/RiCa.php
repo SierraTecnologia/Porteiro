@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Porteiro\Http\Middleware;
 
 use Closure;
@@ -29,38 +29,40 @@ class RiCa
     /**
      * Create a new filter instance.
      *
-     * @param  Guard           $auth
-     * @param  ResponseFactory $response
+     * @param  Guard  $auth
+     * @param  ResponseFactory  $response
      * @return void
      */
-    public function __construct(
-        Guard $auth,
-        ResponseFactory $response
-    ) {
+    public function __construct(Guard $auth,
+                                ResponseFactory $response)
+    {
         $this->auth = $auth;
         $this->response = $response;
     }
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        // if (config('app.env') !== 'production') return $next($request); // @debug @todo
-        if ($this->auth->check()) {
+	 * Handle an incoming request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Closure  $next
+	 * @return mixed
+	 */
+	public function handle($request, Closure $next)
+	{
+        return $next($request); // @todo precisa ajeitar isso aqui, o auth nao chega pq nao tem o auth no menu da rica
+        dd($this->auth->user());
+        if ($this->auth->check())
+        {
             $admin = (int) $this->auth->user()->admin;
 
-            if (!$this->auth->user()->isRoot()) {
-                Log::debug('Usuario sem permissão para rica(root), redirecionando! ');
-                return $this->response->redirectTo($this->auth->user()->homeUrl());
+            if($admin<1){
+
+                $request->session()->flash('status', "You dont have permission!");
+                return $this->response->redirectTo('/');
             }
 
             return $next($request);
         }
-        Log::debug('Sem permissão para rica, redirecionando! ');
-        return $this->response->redirectTo(route('login'));
-    }
+        $request->session()->flash('status', "You need login!");
+        return $this->response->redirectTo('/');
+	}
 }

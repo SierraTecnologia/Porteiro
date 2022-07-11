@@ -23,68 +23,87 @@ class PorteiroProvider extends ServiceProvider
 {
     use ConsoleTools;
 
+    /**
+     * @var string
+     *
+     * @psalm-var 'porteiro'
+     */
     public $packageName = 'porteiro';
     const pathVendor = 'sierratecnologia/porteiro';
 
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{Porteiro: Facades\Porteiro::class}
+     */
     public static $aliasProviders = [
         'Porteiro' => \Porteiro\Facades\Porteiro::class,
     ];
 
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: \Pedreiro\PedreiroServiceProvider::class}
+     */
     public static $providers = [
 
         \Pedreiro\PedreiroServiceProvider::class,
 
-        
+
     ];
+
+
     /**
      * Rotas do Menu
      */
     public static $menuItens = [
-        [
-            'text' => 'Acessos',
-            'icon' => 'fas fa-fw fa-search',
-            'icon_color' => "blue",
-            'label_color' => "success",
-            'section'   => 'admin',
-            'order' => 2020,
-            'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
-        ],
-        'Acessos' => [
-            [
-                'text'        => 'Usuários',
-                'route'       => 'admin.porteiro.users.index',
-                'icon'        => 'laptop',
-                'icon_color'  => 'red',
-                'label_color' => 'success',
-                'section'     => 'admin',
-                'order' => 2022,
-                // 'level'       => 2,
-                // 'feature' => 'commerce',
-            ],
-            [
-                'text'        => 'Grupos',
-                'route'       => 'admin.porteiro.roles.index',
-                'icon'        => 'laptop',
-                'icon_color'  => 'red',
-                'label_color' => 'success',
-                'section'     => 'admin',
-                'order' => 2024,
-                // 'level'       => 2,
-                // 'feature' => 'commerce',
-            ],
-            [
-                'text'        => 'Permissões',
-                'route'       => 'admin.porteiro.permissions.index',
-                'icon'        => 'laptop',
-                'icon_color'  => 'red',
-                'label_color' => 'success',
-                'section'     => 'admin',
-                'order' => 2026,
-                // 'level'       => 2,
-                // 'feature' => 'commerce',
-            ],
-        ],
+        // [
+        //     'text'        => 'Meus Pontos',
+        //     'route'       => 'profile.writelabel.home',
+        //     'icon'        => 'fas fa-fw fa-gamepad',
+        //     'icon_color'  => 'blue',
+        //     'label_color' => 'success',
+        //     'section' => "profile",
+        //     // 'access' => \Porteiro\Models\Role::$ADMIN
+        // ],
+        // [
+        //     'text' => 'Gamificação',
+        //     'icon' => 'fas fa-fw fa-search',
+        //     'icon_color' => "blue",
+        //     'label_color' => "success",
+        //     'section'   => 'admin',
+        //     'level'       => 2, // 0 (Public), 1, 2 (Admin) , 3 (Root)
+        // ],
+        // 'Gamificação' => [
+        //     [
+        //         'text'        => 'Tipos de Pontos',
+        //         'route'       => 'rica.writelabel.pointTypes.index',
+        //         'icon'        => 'fas fa-fw fa-gamepad',
+        //         'icon_color'  => 'blue',
+        //         'label_color' => 'success',
+        //         'section' => "admin",
+        //         // 'access' => \Porteiro\Models\Role::$ADMIN
+        //     ],
+        // ],
     ];
+
+    /**
+     * Alias the services in the boot.
+     */
+    public function boot()
+    {
+
+        // Register configs, migrations, etc
+        $this->registerDirectories();
+
+        // COloquei no register pq nao tava reconhecendo as rotas para o adminlte
+        $this->app->booted(
+            function () {
+                $this->routes();
+            }
+        );
+    }
+
     // /**
     //  * Indicates if loading of the provider is deferred.
     //  *
@@ -109,143 +128,7 @@ class PorteiroProvider extends ServiceProvider
          */
         $this->loadRoutesForRiCa(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'routes');
     }
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot(Router $router, Dispatcher $events): void
-    {
-        $this->publishes(
-            [
-            __DIR__.'/../publishes/config/porteiro.php' => config_path('porteiro.php'),
-            ],
-            'config'
-        );
 
-        // $this->app['router']->aliasMiddleware('user', UserMiddleware::class);
-        // $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
-        // $this->app['router']->pushMiddlewareToGroup('web', 'user');
-        // $this->app['router']->pushMiddlewareToGroup('web', 'admin');
-        $this->app['router']->middlewareGroup(
-            'user',
-            [
-                'web',
-                UserMiddleware::class
-            ]
-        );
-        $this->app['router']->middlewareGroup(
-            'client',
-            [
-                'web',
-                ClientMiddleware::class
-            ]
-        );
-        $this->app['router']->middlewareGroup(
-            'painel',
-            [
-                'web',
-                PainelMiddleware::class
-            ]
-        );
-        $this->app['router']->middlewareGroup(
-            'master',
-            [
-                'web',
-                MasterMiddleware::class
-            ]
-        );
-        $this->app['router']->middlewareGroup(
-            'admin',
-            [
-                'web',
-                AdminMiddleware::class
-            ]
-        );
-        $this->app['router']->middlewareGroup(
-            'rica',
-            [
-                'web',
-                RiCaMiddleware::class
-            ]
-        );
-        // Repete por causa de conflitos
-        $this->app['router']->middlewareGroup(
-            'root',
-            [
-                'web',
-                RiCaMiddleware::class
-            ]
-        );
-
-        $this->app['router']->middlewareGroup(
-            'subscription',
-            [
-                'web',
-                SubscriptionMiddleware::class
-            ]
-        );
-
-        // View::composer(
-        //     'kanban', 'App\Http\ViewComposers\KanbanComposer'
-        // );
-        // View::share('key', 'value');
-        // Validator::extend('porteiro', function ($attribute, $value, $parameters, $validator) {
-        // });
-        
-        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations/');
-        $this->publishes(
-            [
-            __DIR__.'/../database/migrations/' => database_path('migrations')
-            ],
-            'migrations'
-        );
-        
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'porteiro');
-        $this->publishes(
-            [
-            __DIR__.'/../resources/lang' => resource_path('lang'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro'),
-            ]
-        );
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'porteiro');
-        $this->publishes(
-            [
-            __DIR__.'/../resources/views' => resource_path('views'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro'),
-            ]
-        );
-
-
-        if ($this->app->runningInConsole()) {
-            $this->commands(
-                [
-                    
-                ]
-            );
-        }
-
-        // Assets
-
-        $this->publishes(
-            [
-            __DIR__.'/../publishes/assets' => public_path('vendor/porteiro'),
-            ],
-            'public'
-        );
-
-        // COloquei no register pq nao tava reconhecendo as rotas para o adminlte
-        $this->app->booted(function () {
-            $this->routes();
-        });
-
-
-        $events->listen(
-            BuildingMenu::class,
-            function (BuildingMenu $event) {
-                (new \Pedreiro\Template\Mounters\SystemMount())->loadMenuForAdminlte($event);
-            }
-        );
-    }
 
     /**
      * Register bindings in the container.
@@ -284,9 +167,9 @@ class PorteiroProvider extends ServiceProvider
         // Return the active user account
         $this->app->singleton(
             'facilitador.user', function ($app) {
-                $guard = \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador');
+                \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador');
                 // dd('AppContainerGuardFacilitadorUser',$app['auth']->guard($guard)->user(), \Illuminate\Support\Facades\Config::get('application.auth.guard', 'facilitador'));
-                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei 
+                return \App\Models\User::first(); //$app['auth']->guard($guard)->user(); // tinha isso aqui tirei
             }
         );
 
@@ -299,12 +182,14 @@ class PorteiroProvider extends ServiceProvider
             }
         );
     }
-    
+
 
     /**
      * Get the services provided by the provider.
      *
-     * @return array
+     * @return string[]
+     *
+     * @psalm-return array{0: 'porteiro', 1: 'facilitador.acl_fail', 2: 'facilitador.user'}
      */
     public function provides()
     {
@@ -313,5 +198,58 @@ class PorteiroProvider extends ServiceProvider
             'facilitador.acl_fail',
             'facilitador.user',
         ];
+    }
+    /**
+     * Register configs, migrations, etc
+     *
+     * @return void
+     */
+    public function registerDirectories()
+    {
+        // Publish config files
+        $this->publishes(
+            [
+            // Paths
+            $this->getPublishesPath('config'.DIRECTORY_SEPARATOR.'porteiro.php') => config_path('porteiro.php'),
+            ],
+            ['config',  'sitec', 'sitec-config']
+        );
+
+        // // Publish porteiro css and js to public directory
+        // $this->publishes([
+        //     $this->getDistPath('porteiro') => public_path('assets/porteiro')
+        // ], ['public',  'sitec', 'sitec-public']);
+
+        $this->loadViews();
+        $this->loadTranslations();
+        // Register Migrations
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
+    }
+
+    private function loadViews()
+    {
+        // View namespace
+        $viewsPath = $this->getResourcesPath('views');
+        $this->loadViewsFrom($viewsPath, 'porteiro');
+        $this->publishes(
+            [
+            $viewsPath => base_path('resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro'),
+            ],
+            ['views',  'sitec', 'sitec-views']
+        );
+    }
+
+    private function loadTranslations()
+    {
+        // Publish lanaguage files
+        $this->publishes(
+            [
+            $this->getResourcesPath('lang') => resource_path('lang'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'porteiro')
+            ],
+            ['lang',  'sitec', 'sitec-lang', 'translations']
+        );
+
+        // Load translations
+        $this->loadTranslationsFrom($this->getResourcesPath('lang'), 'porteiro');
     }
 }

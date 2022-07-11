@@ -71,7 +71,8 @@ class Admin extends Base implements
     /**
      * Orders instances of this model in the admin
      *
-     * @param  Illuminate\Database\Query\Builder $query
+     * @param Builder $query
+     *
      * @return void
      */
     public function scopeOrdered(Builder $query, string $direction = 'asc')
@@ -82,9 +83,11 @@ class Admin extends Base implements
     /**
      * Tweak some validation rules
      *
-     * @param Illuminate\Validation\Validator $validation
+     * @param \Illuminate\Validation\Validator $validation
+     *
+     * @return void
      */
-    public function onValidating($validation)
+    public function onValidating($validation): void
     {
         // Only apply mods when editing an existing record
         if (!$this->exists) {
@@ -314,8 +317,10 @@ class Admin extends Base implements
 
     /**
      * Return the gravatar URL for the admin
+     *
+     * @return string
      */
-    public function getGravatarAttribute()
+    public function getGravatarAttribute(): string
     {
         return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email)));
     }
@@ -396,10 +401,13 @@ class Admin extends Base implements
     /**
      * Get the list of all permissions
      *
-     * @param  Admin|null $admin
-     * @return array
+     * @param Admin|null $admin
+     *
+     * @return \stdClass[]
+     *
+     * @psalm-return list<\stdClass>
      */
-    public static function getPermissionOptions($admin = null)
+    public static function getPermissionOptions($admin = null): array
     {
         // Get all the app controllers
         $controllers = array_map(

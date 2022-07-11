@@ -7,12 +7,25 @@ use Porteiro;
 
 class Permission extends Model
 {
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * @var string[]
+     *
+     * @psalm-var array{0: 'name'}
+     */
     protected $fillable = [
         'name'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<empty>
+     */
     public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Porteiro::modelClass('Role'));
