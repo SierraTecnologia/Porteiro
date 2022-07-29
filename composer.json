@@ -8,7 +8,7 @@
     "homepage": "https://github.com/sierratecnologia/porteiro",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.2|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "laravel/passport": "^8.0|^9.0|^10.0",
