@@ -17,7 +17,18 @@ use Auth;
 class DashboardController extends Controller
 {
 
-    
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // dd(
+        //     $this
+        // );
+    }
     /**
      * Dashboard
      *
@@ -25,6 +36,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        dd('oi');
+
         $title = "Home";
         $boxComponents = [];
 
@@ -75,7 +88,7 @@ class DashboardController extends Controller
                 trans('words.moreInfo'),
                 // link
                 url('admin/pages')
-                
+
             );
         } else if (class_exists(\Siravel\Models\Negocios\Page::class)){
             $boxComponents[] = BoxComponent::create(

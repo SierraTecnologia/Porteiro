@@ -25,19 +25,20 @@ class Admin
      */
     protected $response;
 
-    // /**
-    //  * Create a new filter instance.
-    //  *
-    //  * @param  Guard  $auth
-    //  * @param  ResponseFactory  $response
-    //  * @return void
-    //  */
-    // public function __construct(Guard $auth,
-    //                             ResponseFactory $response)
-    // {
-    //     $this->auth = $auth;
-    //     $this->response = $response;
-    // }
+    /**
+     * Create a new filter instance.
+     *
+     * @param  Guard  $auth
+     * @param  ResponseFactory  $response
+     * @return void
+     */
+    public function __construct(Guard $auth,
+                                ResponseFactory $response)
+    {
+        dd('oi');
+        $this->auth = $auth;
+        $this->response = $response;
+    }
     /**
 	 * Handle an incoming request.
 	 *

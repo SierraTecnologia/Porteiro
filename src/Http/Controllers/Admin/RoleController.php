@@ -20,9 +20,6 @@ class RoleController extends Controller
 
         // Configure Controller
         $this->withPagination = 15;
-
-        // Call Parent
-        parent::__construct();
     }
 
     // @todo Antigo removi, agora usa Pedreiro
