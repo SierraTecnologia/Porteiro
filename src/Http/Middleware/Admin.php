@@ -35,6 +35,7 @@ class Admin
     public function __construct(Guard $auth,
                                 ResponseFactory $response)
     {
+        dd('oi');
         $this->auth = $auth;
         $this->response = $response;
     }

@@ -55,27 +55,37 @@ class LoginController extends Controller
         return view('porteiro::auth.login');
     }
 
-    /**
-     * Check user's role and redirect user based on their role
-     *
-     * @return
-     */
-    public function authenticated()
-    {
-        if (auth()->user()->hasRole('admin')) {
-            return redirect('/admin/dashboard');
-        }
+    // /**
+    //  * Check user's role and redirect user based on their role
+    //  *
+    //  * @return
+    //  */
+    // public function authenticated()
+    // {
+    //     // dd('oi', auth()->user());
+    //     if (auth()->user()->hasRole('admin')) {
+    //         return redirect('/admin/dashboard');
+    //     }
 
-        return redirect('dashboard');
-    }
+    //     return redirect('dashboard');
+    // }
 
     public function login(Request $request)
     {
+
         $email      = $request->get('email');
         $password   = $request->get('password');
         $remember   = $request->get('remember');
+// dd(
+//     Auth::attempt(
+//         [
+//         'email'     => $email,
+//         'password'  => $password
+//         ],
+//         $remember == 1 ? true : false
+//     )
+// );
 
-        // dd('oiuiuiui');
         if (Auth::attempt(
             [
             'email'     => $email,

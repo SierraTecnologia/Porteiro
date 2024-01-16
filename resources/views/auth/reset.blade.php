@@ -4,9 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Reset Password</div>
-                    <div class="panel-body">
+                <div class="card card-default">
+                    <div class="box-header panel-heading card-header">Reset Password</div>
+                    <div class="box-body panel-body card-body">
                         {!! Form::open(array('url' => url('password/reset'), 'method' => 'post', 'files'=> true)) !!}
                         {!! Form::hidden('token', $token) !!}
                         <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
