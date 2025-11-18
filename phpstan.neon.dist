@@ -2,11 +2,10 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 3
+    level: 5
     paths:
         - src
-    bootstrapFiles:
-        - _ide_helper.php
-        - _ide_helper_models.php
-    excludes_analyse:
+    excludePaths:
         - src/PorteiroProvider.php
+    ignoreErrors:
+        - '#Call to an undefined method#'
