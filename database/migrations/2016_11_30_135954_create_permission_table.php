@@ -14,8 +14,7 @@ class CreatePermissionTable extends Migration
     public function up()
     {
         if (!Schema::hasTable('permissions')) {
-            Schema::create(
-                'permissions',
+            Schema::hasTable('permissions') || Schema::create('permissions',
                 function (Blueprint $table) {
                     $table->increments('id');
                     $table->string('name')->nullable(); // @todo ->unique();

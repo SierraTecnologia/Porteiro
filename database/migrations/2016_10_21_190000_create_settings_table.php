@@ -13,8 +13,7 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create(
-            'settings',
+        Schema::hasTable('settings') || Schema::create('settings',
             function (Blueprint $table) {
                 // @todo resolver lance do bussiness_code
                 $table->engine = 'InnoDB';

@@ -14,7 +14,7 @@ class CreateActivitiesTable extends Migration
     public function up()
     {
         if (!Schema::hasTable('activities')) {
-            Schema::create('activities', function (Blueprint $table) {
+            Schema::hasTable('activities') || Schema::create('activities', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('causer')->index();
                 $table->string('type')->index();
