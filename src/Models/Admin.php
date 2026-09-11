@@ -73,11 +73,13 @@ class Admin extends Base implements
      *
      * @param Builder $query
      *
-     * @return void
+     * @return Builder
      */
-    public function scopeOrdered(Builder $query, string $direction = 'asc')
+    public function scopeOrdered(Builder $query, string $direction = 'asc'): Builder
     {
         $query->orderBy('last_name')->orderBy('first_name');
+
+        return $query;
     }
 
     /**
@@ -111,7 +113,7 @@ class Admin extends Base implements
      *
      * @return void
      */
-    public function onCreating()
+    public function onCreating(): void
     {
         // Send out email
         if (Request::has('_send_email')) {
@@ -140,7 +142,7 @@ class Admin extends Base implements
      *
      * @return void
      */
-    public function onUpdating()
+    public function onUpdating(): void
     {
         if (Request::has('_send_email')) {
             $this->sendUpdateEmail();
@@ -152,7 +154,7 @@ class Admin extends Base implements
      *
      * @return void
      */
-    public function onSaving()
+    public function onSaving(): void
     {
         // If the password is changing, hash it
         if ($this->isDirty('password')) {

@@ -13,16 +13,24 @@ class AddUserSettings extends Migration
      */
     public function up()
     {
-        Schema::table(
-            'users', function (Blueprint $table) {
-                $table->text('settings')->nullable()->default(null)->after('remember_token');
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    if (! Schema::hasColumn('users', 'settings')) {
+                        $table->text('settings')->nullable()->default(null)->after('remember_token');
+                    }
 
-                // @todo verificar isso, add pra parar de dar erro
+                    // @todo verificar isso, add pra parar de dar erro
 
-                $table->string('locale')->nullable()->default('pt');
-                $table->string('locale_group')->nullable();
-            }
-        );
+                    if (! Schema::hasColumn('users', 'locale')) {
+                        $table->string('locale')->nullable()->default('pt');
+                    }
+                    if (! Schema::hasColumn('users', 'locale_group')) {
+                        $table->string('locale_group')->nullable();
+                    }
+                }
+            );
+        }
     }
 
     /**
@@ -32,12 +40,16 @@ class AddUserSettings extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'users', function (Blueprint $table) {
-                $table->dropColumn('locale_group');
-                $table->dropColumn('locale');
-                $table->dropColumn('settings');
-            }
-        );
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    foreach (['locale_group', 'locale', 'settings'] as $column) {
+                        if (Schema::hasColumn('users', $column)) {
+                            $table->dropColumn($column);
+                        }
+                    }
+                }
+            );
+        }
     }
 }

@@ -18,19 +18,21 @@ class VerifyUsersTable extends Migration
         /**
          * user
          */
-        Schema::table(
-            'users', function (Blueprint $table) {
-                if (!Schema::hasColumn('users', 'active')) {
-                    $table->boolean('active')->default(true);
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    if (! Schema::hasColumn('users', 'active')) {
+                        $table->boolean('active')->default(true);
+                    }
+                    if (! Schema::hasColumn('users', 'gender')) {
+                        $table->string('gender', 12)->nullable();
+                    }
+                    if (! Schema::hasColumn('users', 'birth_date')) {
+                        $table->date('birth_date')->nullable();
+                    }
                 }
-                if (!Schema::hasColumn('users', 'gender')) {
-                    $table->string('gender', 12)->nullable();
-                }
-                if (!Schema::hasColumn('users', 'birth_date')) {
-                    $table->date('birth_date')->nullable();
-                }
-            }
-        );
+            );
+        }
     }
 
     /**
@@ -40,10 +42,14 @@ class VerifyUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('active');
-            $table->dropColumn('gender');
-            $table->dropColumn('birth_date');
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                foreach (['active', 'gender', 'birth_date'] as $column) {
+                    if (Schema::hasColumn('users', $column)) {
+                        $table->dropColumn($column);
+                    }
+                }
+            });
+        }
     }
 }

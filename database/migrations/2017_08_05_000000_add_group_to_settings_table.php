@@ -13,11 +13,13 @@ class AddGroupToSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::table(
-            'settings', function (Blueprint $table) {
-                $table->string('group')->nullable()->after('order');
-            }
-        );
+        if (Schema::hasTable('settings') && ! Schema::hasColumn('settings', 'group')) {
+            Schema::table(
+                'settings', function (Blueprint $table) {
+                    $table->string('group')->nullable()->after('order');
+                }
+            );
+        }
     }
 
     /**
@@ -27,10 +29,12 @@ class AddGroupToSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'settings', function (Blueprint $table) {
-                $table->dropColumn('group');
-            }
-        );
+        if (Schema::hasTable('settings') && Schema::hasColumn('settings', 'group')) {
+            Schema::table(
+                'settings', function (Blueprint $table) {
+                    $table->dropColumn('group');
+                }
+            );
+        }
     }
 }

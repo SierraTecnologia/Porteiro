@@ -12,11 +12,11 @@ Route::resource('permissions', 'PermissionController');
 |--------------------------------------------------------------------------
 */
 Route::resource('users', 'UserController', ['except' => ['create', 'show']]);
-Route::post('users/search', 'UserController@search'); //->name('users.search');
+Route::post('users/search', 'UserController@search')->name('users.search.store');
 Route::get('users/search', 'UserController@index')->name('users.search');
 Route::get('users/invite', 'UserController@getInvite')->name('users.invite');
 Route::get('users/switch/{id}', 'UserController@switchToUser')->name('users.switch');
-Route::post('users/invite', 'UserController@postInvite')->name('users.invite');
+Route::post('users/invite', 'UserController@postInvite')->name('users.invite.store');
 
 Route::get('/users/switch-back', 'UserController@switchUserBack')->name('users.back');
 
@@ -28,5 +28,5 @@ Route::get('/users/switch-back', 'UserController@switchUserBack')->name('users.b
 Route::resource('roles', 'RoleController')->parameters([
     'roles' => 'id'
 ]);
-Route::post('roles/search', 'RoleController@search');
+Route::post('roles/search', 'RoleController@search')->name('roles.search.store');
 Route::get('roles/search', 'RoleController@index')->name('roles.search');

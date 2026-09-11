@@ -14,19 +14,24 @@ class CreatePermissionTable extends Migration
     public function up()
     {
         if (!Schema::hasTable('permissions')) {
-            Schema::hasTable('permissions') || Schema::create('permissions',
-                function (Blueprint $table) {
-                    $table->increments('id');
-                    $table->string('name')->nullable(); // @todo ->unique();
-                    $table->string('display_name')->nullable();
-                    $table->string('description')->nullable();
-                
-                    // Sem ser do entrust
+            Schema::create('permissions', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name')->nullable(); // @todo ->unique();
+                $table->string('display_name')->nullable();
+                $table->string('description')->nullable();
+                $table->string('key')->nullable()->index();
+                $table->string('table_name')->nullable();
+                $table->timestamps();
+            });
+        } else {
+            Schema::table('permissions', function (Blueprint $table) {
+                if (!Schema::hasColumn('permissions', 'key')) {
                     $table->string('key')->nullable()->index();
-                    $table->string('table_name')->nullable();
-                    $table->timestamps();
                 }
-            );
+                if (!Schema::hasColumn('permissions', 'table_name')) {
+                    $table->string('table_name')->nullable();
+                }
+            });
         }
     }
 

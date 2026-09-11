@@ -2,7 +2,7 @@
 
 namespace Porteiro\Models;
 
-use App\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 // use SierraTecnologia\Cashier\Billable; //@todo removi
 
 class UserMeta extends Model

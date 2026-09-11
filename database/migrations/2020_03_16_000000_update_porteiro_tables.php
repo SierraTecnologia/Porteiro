@@ -14,14 +14,14 @@ class UpdatePorteiroTables extends Migration
     public function up()
     {
 
-        if (!Schema::hasColumn('users', 'activated')) {
+        if (Schema::hasTable('users') && ! Schema::hasColumn('users', 'activated')) {
             Schema::table(
                 'users', function (Blueprint $table) {
                     $table->boolean('activated')->default(true);
                 }
             );
         }
-        if (!Schema::hasColumn('roles', 'label')) {
+        if (Schema::hasTable('roles') && ! Schema::hasColumn('roles', 'label')) {
             Schema::table(
                 'roles', function (Blueprint $table) {
                     $table->string('label')->nullable();
@@ -30,7 +30,7 @@ class UpdatePorteiroTables extends Migration
         }
 
 
-        if (!Schema::hasColumn('roles', 'permissions')) {
+        if (Schema::hasTable('roles') && ! Schema::hasColumn('roles', 'permissions')) {
             Schema::table(
                 'roles', function (Blueprint $table) {
                     $table->string('permissions')->nullable();

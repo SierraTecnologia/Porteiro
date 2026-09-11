@@ -44,11 +44,15 @@ class Role extends Model
     /**
      * @inheritdoc
      *
-     * @return RoleBuilder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function newEloquentBuilder($query): RoleBuilder
+    public function newEloquentBuilder($query): \Illuminate\Database\Eloquent\Builder
     {
-        return new RoleBuilder($query);
+        if (class_exists(\Population\Manipule\Builders\RoleBuilder::class)) {
+            return new \Population\Manipule\Builders\RoleBuilder($query);
+        }
+
+        return parent::newEloquentBuilder($query);
     }
 
     /**

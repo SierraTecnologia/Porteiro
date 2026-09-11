@@ -1,11 +1,11 @@
 <?php
 
 if (config('siravel.login', true)) {
-    Route::post('pusher/auth', function() {
-        return auth()->user();
-    });
+    Route::post('pusher/auth', '\\Porteiro\\Http\\Controllers\\Auth\\PusherAuthController@__invoke');
 
-    Auth::routes(['login' => 'auth.login']);
+    if (class_exists(\Laravel\Ui\UiServiceProvider::class) && method_exists(Auth::class, 'routes')) {
+        Auth::routes(['login' => 'auth.login']);
+    }
 
     Route::group(['middleware' => 'auth:all'], function()
     {
@@ -13,9 +13,7 @@ if (config('siravel.login', true)) {
         Route::get('/logout', ['as' => $a . 'logout', 'uses' => 'Auth\LoginController@logout']);
         Route::get('/activate/{token}', ['as' => $a . 'activate', 'uses' => 'User\ActivateController@activate']);
         Route::get('/activate', ['as' => $a . 'activation-resend', 'uses' => 'User\ActivateController@resend']);
-        Route::get('not-activated', ['as' => 'not-activated', 'uses' => function () {
-            return view('errors.not-activated');
-        }]);
+        Route::get('not-activated', '\\Porteiro\\Http\\Controllers\\Auth\\NotActivatedController@__invoke')->name('not-activated');
     });
 
     // DIferente do Outro, testar os dois
@@ -40,7 +38,7 @@ if (config('siravel.login', true)) {
     */
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
-    Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('logout', 'Auth\LoginController@logout')->name('logout.form');
 
     // Password Reset Routes...
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

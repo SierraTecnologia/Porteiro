@@ -13,15 +13,25 @@ class AddUserRoleRelationship extends Migration
      */
     public function up()
     {
-        Schema::table(
-            'users', function (Blueprint $table) {
-                $table->integer('role_id')->unsigned()->change();
-                $table->foreign('role_id')->references('id')->on('roles');
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    if (Schema::hasColumn('users', 'role_id')) {
+                        $table->integer('role_id')->unsigned()->nullable()->change();
+                        if (Schema::hasTable('roles')) {
+                            $table->foreign('role_id')->references('id')->on('roles');
+                        }
+                    }
 
-                $table->integer('admin')->unsigned()->default(0);
-                $table->softDeletes();
-            }
-        );
+                    if (! Schema::hasColumn('users', 'admin')) {
+                        $table->integer('admin')->unsigned()->default(0);
+                    }
+                    if (! Schema::hasColumn('users', 'deleted_at')) {
+                        $table->softDeletes();
+                    }
+                }
+            );
+        }
     }
 
     /**
@@ -31,16 +41,22 @@ class AddUserRoleRelationship extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'users', function (Blueprint $table) {
-                $table->dropForeign(['role_id']);
-            }
-        );
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    if (Schema::hasColumn('users', 'role_id')) {
+                        $table->dropForeign(['role_id']);
+                    }
+                }
+            );
+        }
 
-        Schema::table(
-            'users', function (Blueprint $table) {
-                $table->bigInteger('role_id')->change();
-            }
-        );
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'role_id')) {
+            Schema::table(
+                'users', function (Blueprint $table) {
+                    $table->bigInteger('role_id')->nullable()->change();
+                }
+            );
+        }
     }
 }

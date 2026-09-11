@@ -13,20 +13,22 @@ class MakeTableNameNullableInPermissionsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('permissions', 'table_name')) {
-            Schema::table(
-                'permissions',
-                function (Blueprint $table) {
-                    $table->string('table_name')->nullable()->default(null)->change();
-                }
-            );
-        } else {
-            Schema::table(
-                'permissions',
-                function (Blueprint $table) {
-                $table->string('table_name')->nullable()->default(null);
+        if (Schema::hasTable('permissions')) {
+            if (Schema::hasColumn('permissions', 'table_name')) {
+                Schema::table(
+                    'permissions',
+                    function (Blueprint $table) {
+                        $table->string('table_name')->nullable()->default(null)->change();
+                    }
+                );
+            } else {
+                Schema::table(
+                    'permissions',
+                    function (Blueprint $table) {
+                        $table->string('table_name')->nullable()->default(null);
+                    }
+                );
             }
-            );
         }
     }
 

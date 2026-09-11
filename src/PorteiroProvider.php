@@ -7,6 +7,8 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Container\Container;
+use JeroenNoten\LaravelAdminLte\AdminLte;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Muleta\Traits\Providers\ConsoleTools;
 use Porteiro\Facades\Porteiro as PorteiroFacade;

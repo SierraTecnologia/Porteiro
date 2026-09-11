@@ -36,8 +36,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        dd('oi');
-
         $title = "Home";
         $boxComponents = [];
 

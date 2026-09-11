@@ -9,17 +9,19 @@ class AddFacilitadorUserFields extends Migration
      */
     public function up()
     {
-        Schema::table(
-            'users',
-            function ($table) {
-                if (!Schema::hasColumn('users', 'avatar')) {
-                    $table->string('avatar')->nullable()->after('email')->default('users/default.png');
+        if (Schema::hasTable('users')) {
+            Schema::table(
+                'users',
+                function ($table) {
+                    if (! Schema::hasColumn('users', 'avatar')) {
+                        $table->string('avatar')->nullable()->after('email')->default('users/default.png');
+                    }
+                    if (! Schema::hasColumn('users', 'role_id')) {
+                        $table->bigInteger('role_id')->nullable()->after('id');
+                    }
                 }
-                if (!Schema::hasColumn('users', 'role_id')) {
-                    $table->bigInteger('role_id')->nullable()->after('id');
-                }
-            }
-        );
+            );
+        }
     }
 
     /**
@@ -27,7 +29,7 @@ class AddFacilitadorUserFields extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('users', 'avatar')) {
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'avatar')) {
             Schema::table(
                 'users',
                 function ($table) {
@@ -35,7 +37,7 @@ class AddFacilitadorUserFields extends Migration
                 }
             );
         }
-        if (Schema::hasColumn('users', 'role_id')) {
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'role_id')) {
             Schema::table(
                 'users',
                 function ($table) {

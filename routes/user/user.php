@@ -8,9 +8,7 @@ use Porteiro\Facades\Porteiro;
 // });
 
 
-Route::post('pusher/auth', function () {
-    return auth()->user();
-});
+Route::post('pusher/auth', '\\Porteiro\\Http\\Controllers\\Auth\\PusherAuthController@__invoke')->name('pusher.auth');
 /*
 |--------------------------------------------------------------------------
 | Porteiro Routes
@@ -40,10 +38,10 @@ Route::post('pusher/auth', function () {
                         Route::get('/', 'ProfileController@index')->name('home');
                         Route::get('/show', 'ProfileController@show')->name('profile.show');
                         
-                        Route::get('settings', 'SettingsController@settings');
-                        Route::post('settings', 'SettingsController@update');
-                        Route::get('password', 'PasswordController@password');
-                        Route::post('password', 'PasswordController@update');
+                        Route::get('settings', 'SettingsController@settings')->name('settings');
+                        Route::post('settings', 'SettingsController@update')->name('settings.update');
+                        Route::get('password', 'PasswordController@password')->name('password');
+                        Route::post('password', 'PasswordController@update')->name('password.update');
 
                     // }
                 // );

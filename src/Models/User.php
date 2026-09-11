@@ -127,7 +127,8 @@ class User extends Base implements
         'email',
         'token',
         'token_public',
-        'admin'
+        'admin',
+        'role_id',
     ];
 
     /**
@@ -395,6 +396,8 @@ class User extends Base implements
     public function scopeOrdered(Builder $query, string $direction = 'asc'): Builder
     {
         $query->orderBy('last_name', $direction)->orderBy('first_name', $direction);
+
+        return $query;
     }
 
     /**
@@ -912,7 +915,7 @@ class User extends Base implements
      */
     public function setPasswordAttribute($password): void
     {
-        $this->attributes['password'] = \Hash::make($password);
+        $this->attributes['password'] = \Hash::needsRehash($password) ? \Hash::make($password) : $password;
     }
     public function setCreatedAtAttribute($value): void
     {

@@ -13,11 +13,13 @@ class MakeSettingsValueNullable extends Migration
      */
     public function up()
     {
-        Schema::table(
-            'settings', function (Blueprint $table) {
-                $table->text('value')->nullable()->change();
-            }
-        );
+        if (Schema::hasTable('settings') && Schema::hasColumn('settings', 'value')) {
+            Schema::table(
+                'settings', function (Blueprint $table) {
+                    $table->text('value')->nullable()->change();
+                }
+            );
+        }
     }
 
     /**
@@ -27,10 +29,12 @@ class MakeSettingsValueNullable extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'settings', function (Blueprint $table) {
-                $table->text('value')->nullable(false)->change();
-            }
-        );
+        if (Schema::hasTable('settings') && Schema::hasColumn('settings', 'value')) {
+            Schema::table(
+                'settings', function (Blueprint $table) {
+                    $table->text('value')->nullable(false)->change();
+                }
+            );
+        }
     }
 }
