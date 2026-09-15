@@ -11,7 +11,7 @@ class Activity extends Model
      *
      * @psalm-var array{0: 'causer', 1: 'indentifier', 2: 'type', 3: 'data'}
      */
-    protected $fillable = ['causer', 'indentifier', 'type', 'data', 'activitable_id', 'activitable_type'];
+    protected $fillable = ['causer', 'indentifier', 'type', 'data', 'activitable_id', 'activitable_type', 'user_id', 'description', 'request'];
 }
 // public $table = "activities";
 
