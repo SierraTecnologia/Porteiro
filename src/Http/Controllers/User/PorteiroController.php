@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Constraint;
-use Intervention\Image\Facades\Image;
-use League\Flysystem\Util;
+use Muleta\Image\Constraint;
+use Muleta\Image\Image;
 use Porteiro\Facades\Porteiro;
 use Porteiro\Http\Controllers\User\Controller;
 
@@ -64,13 +63,8 @@ class PorteiroController extends Controller
 
             // move uploaded file from temp to uploads directory
             if (Storage::disk(\Illuminate\Support\Facades\Config::get('sitec.facilitador.storage.disk'))->put($fullPath, (string) $image, 'public')) {
-                $status = __('pedreiro::media.success_uploading');
                 $fullFilename = $fullPath;
-            } else {
-                $status = __('pedreiro::media.error_uploading');
             }
-        } else {
-            $status = __('pedreiro::media.uploading_wrong_type');
         }
 
         // echo out script that TinyMCE can handle and update the image in the editor

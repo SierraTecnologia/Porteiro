@@ -3,7 +3,6 @@
 namespace Porteiro\Traits;
 
 use GuzzleHttp\Client;
-use Image;
 
 trait UserAvatarHelper
 {
